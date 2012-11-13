@@ -2,17 +2,24 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
+import java.util.LinkedList;
 
-class KDTree <T extends Number> 
+class KDTree <T extends Number & Comparable<T>> 
 {
+    private KDNode<T> root;
     private int dims;
+
+    public KDNode<T> getRoot()
+    {
+        return root;
+    }
 
     public KDTree(int dims)
     {
         this.dims = dims;
     }
-
-    public KDNode build(ArrayList<ArrayList<T>> point_list, int depth)
+    
+    public KDNode<T> build(ArrayList<ArrayList<T>> point_list, int depth)
     {
         int axis = depth % dims;
         int size = point_list.size();
@@ -20,7 +27,10 @@ class KDTree <T extends Number>
 
         KDNode node;
 
-        Collections.sort(point_list, new MyComparator(axis)); 
+        MyComparator<T> c = new MyComparator<T>();
+        c.setAxis(axis);
+
+        Collections.sort(point_list, c); 
         
         if(size > 0)
         {
@@ -38,26 +48,46 @@ class KDTree <T extends Number>
         else
             return null;
 
-//        System.out.println(mid);
         node.setLeft( build(new ArrayList(point_list.subList(0, mid)), depth+1) );
         node.setRight( build(new ArrayList(point_list.subList(mid+1, size)), depth+1) );
+
+        this.root = node;
 
         return node;
     }
 
-    private class MyComparator<T extends Number & Comparable<T>> implements Comparator<ArrayList<T>>
+    public LinkedList<KDNode<T>> buildStack(LinkedList<KDNode<T>> stack, ArrayList<T> search_point, KDNode<T> node, int axis)
+    {
+        MyComparator c = new MyComparator();
+        c.setAxis(axis);
+        stack.push(node);
+
+        if(c.compare(search_point, node.getPoint()) > 0 && node.getRight() != null)
+        {
+            buildStack(stack, search_point, node.getRight(), (axis+1)%dims);
+        }
+        
+        else if(c.compare(search_point, node.getPoint()) < 0 && node.getLeft() != null)
+        {
+            buildStack(stack, search_point, node.getLeft(), (axis+1)%dims);
+        }
+
+        return stack;
+    }
+
+    private class MyComparator<S extends Number & Comparable<S>> implements Comparator<ArrayList<S>>
     {
         private int axis;
 
-        public MyComparator(int axis)
-        {
-            this.axis = axis;
-        }
-        
         @Override
-        public int compare(ArrayList<T> a, ArrayList<T> b)
+        public int compare(ArrayList<S> a, ArrayList<S> b)
         {
             return a.get(axis).compareTo(b.get(axis));
+        }
+
+        public void setAxis(int axis)
+        {
+            this.axis = axis;
         }
     }
 }

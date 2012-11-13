@@ -30,9 +30,21 @@ class MainTest
 //        for(int i = 0; i < point_list.size(); i++) 
 //            System.out.println(point_list.get(i));
     
-        KDNode root = kd.build(point_list, 0);
+        KDNode<Integer> root = kd.build(point_list, 0);
 
         printTree(root);
+
+        LinkedList<KDNode<Integer>> stack = new LinkedList<KDNode<Integer>>();
+        ArrayList<Integer> sp = new ArrayList<Integer>();
+        sp.add(8);
+        sp.add(5);
+        
+        kd.buildStack(stack, sp, kd.getRoot(), 0); 
+
+        System.out.println();
+
+        for(KDNode n : stack)
+            System.out.println(n.getPoint());
     } 
 
     public static void printTree(KDNode node)

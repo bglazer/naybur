@@ -27,9 +27,6 @@ class MainTest
             point_list.add(ta[i]);
         } 
 
-//        for(int i = 0; i < point_list.size(); i++) 
-//            System.out.println(point_list.get(i));
-    
         KDNode<Integer> root = kd.build(point_list, 0);
 
         printTree(root);

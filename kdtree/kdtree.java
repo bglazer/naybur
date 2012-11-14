@@ -43,7 +43,7 @@ class KDTree <T extends Number & Comparable<T>>
                 System.out.println("Expected dimension " + dims + " but received " + median.size() + " dimensions"); 
             }
 
-            node = new KDNode(median);
+            node = new KDNode(median, axis);
         }
         else
             return null;
@@ -73,6 +73,62 @@ class KDTree <T extends Number & Comparable<T>>
         }
 
         return stack;
+    }
+
+    public KDNode<T> findNearest(KDNode root, ArrayList<T> search_point)
+    {
+        MyComparator c = new MyComparator();
+
+        LinkedList<KDNode<T>> stack = new LinkedList();
+
+        buildStack(stack, search_point, root, 0);
+
+        KDNode<T> node = stack.pop();
+        KDNode<T> closest = node;
+        
+        double best_dist = sqDist(node.getPoint(), search_point);
+        double dist;
+
+        while(!stack.isEmpty())
+        {
+            node = stack.pop();
+
+            dist = sqDist(node.getPoint(), search_point);
+
+            if( dist < best )
+            {
+                best = dist;
+                closest = node; 
+            }
+
+            double dist_splitting_plane = sqDist(node, closest.getSplittingPlane()); 
+
+            if( dist_splitting_plane < best )
+            {
+                c.setAxis(node.getAxis());
+
+                if(c.compare(search_point, node.getPoint()) > 0 && node.getLeft() != null)
+                {
+                    buildStack(stack, search_point, node.getLeft(), node.getAxis());
+                }
+                else if(c.compare(search_point, node.getPoint()) < 0 && node.getRight() != null)
+                {
+                    buildStack(stack, search_point, node.getRight(), node.getAxis());
+                }
+            }
+        }
+    }
+
+    public double sqDist(ArrayList<T> a, ArrayList<T> b)
+    {
+        double dist = 0;
+
+        for(int i = 0; i < dims; i++)
+        {
+            dist += Math.pow(a.get(i) - b.get(i), 2);
+        }
+
+        return dist;
     }
 
     private class MyComparator<S extends Number & Comparable<S>> implements Comparator<ArrayList<S>>

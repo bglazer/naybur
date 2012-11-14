@@ -4,10 +4,12 @@ class KDNode<T extends Number>
 {
     private KDNode left, right;
     private ArrayList<T> position;
+    private int axis;
 
-    public KDNode(ArrayList<T> position)
+    public KDNode(ArrayList<T> position, int axis)
     {
         this.position = position;
+        this.axis = axis;
     } 
 
     public void setLeft(KDNode left)
@@ -35,5 +37,17 @@ class KDNode<T extends Number>
     public ArrayList<T> getPoint()
     {
         return position;
+    }
+
+    public int getAxis()
+    {
+        return axis;
+    }
+
+    public T getSplitValue()
+    {
+        T axis_value = position.get(axis);
+
+        return axis_value;
     }
 }

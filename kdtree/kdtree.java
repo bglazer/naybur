@@ -4,12 +4,12 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.LinkedList;
 
-class KDTree <T extends Number & Comparable<T>> 
+class KDTree
 {
-    private KDNode<T> root;
+    private KDNode root;
     private int dims;
 
-    public KDNode<T> getRoot()
+    public KDNode getRoot()
     {
         return root;
     }
@@ -19,22 +19,45 @@ class KDTree <T extends Number & Comparable<T>>
         this.dims = dims;
     }
     
-    public KDNode<T> build(ArrayList<ArrayList<T>> point_list, int depth)
+    private class MyComparator<T extends Double> implements Comparator<ArrayList<T>>
+    {
+        private int axis;
+
+        @Override
+        public int compare(ArrayList<T> a, ArrayList<T> b)
+        {
+            if(a.get(axis) > b.get(axis))
+                return 1;
+            else if(a.get(axis) < b.get(axis))
+                return -1;
+            else 
+                return 0;
+        }
+
+        public void setAxis(int axis)
+        {
+            this.axis = axis;
+        }
+    }
+
+    public KDNode build(ArrayList<ArrayList<Double>> point_list, int depth)
     {
         int axis = depth % dims;
         int size = point_list.size();
         int mid = (int)(size/2);
+        
+        MyComparator c = new MyComparator();
 
         KDNode node;
 
-        MyComparator<T> c = new MyComparator<T>();
+        axis = depth%dims;
         c.setAxis(axis);
 
         Collections.sort(point_list, c); 
         
         if(size > 0)
         {
-            ArrayList<T> median = point_list.get((int)(point_list.size()/2));
+            ArrayList<Double> median = point_list.get((int)(point_list.size()/2));
 
             if(median.size() != dims)
             {
@@ -56,35 +79,37 @@ class KDTree <T extends Number & Comparable<T>>
         return node;
     }
 
-    public LinkedList<KDNode<T>> buildStack(LinkedList<KDNode<T>> stack, ArrayList<T> search_point, KDNode<T> node, int axis)
+    public LinkedList<KDNode> buildStack(LinkedList<KDNode> stack, ArrayList<Double> search_point, KDNode node, int axis)
     {
-        MyComparator c = new MyComparator();
-        c.setAxis(axis);
         stack.push(node);
+       
+        MyComparator c = new MyComparator();
 
-        if(c.compare(search_point, node.getPoint()) > 0 && node.getRight() != null)
+        c.setAxis(axis);
+
+        if(c.compare(search_point, node.getPoint()) < 0 && node.getLeft() != null)
         {
-            buildStack(stack, search_point, node.getRight(), (axis+1)%dims);
+            buildStack(stack, search_point, node.getLeft(), node.getLeft().getAxis());
         }
-        
-        else if(c.compare(search_point, node.getPoint()) < 0 && node.getLeft() != null)
+        else if(c.compare(search_point, node.getPoint()) > 0 && node.getRight() != null)
         {
-            buildStack(stack, search_point, node.getLeft(), (axis+1)%dims);
+            buildStack(stack, search_point, node.getRight(), node.getRight().getAxis());
         }
 
         return stack;
     }
 
-    public KDNode<T> findNearest(KDNode root, ArrayList<T> search_point)
+    public KDNode findNearest(KDNode root, ArrayList<Double> search_point)
     {
-        MyComparator c = new MyComparator();
 
-        LinkedList<KDNode<T>> stack = new LinkedList();
+        LinkedList<KDNode> stack = new LinkedList();
+        
+        MyComparator c = new MyComparator();
 
         buildStack(stack, search_point, root, 0);
 
-        KDNode<T> node = stack.pop();
-        KDNode<T> closest = node;
+        KDNode node = stack.pop();
+        KDNode closest = node;
         
         double best_dist = sqDist(node.getPoint(), search_point);
         double dist;
@@ -95,15 +120,15 @@ class KDTree <T extends Number & Comparable<T>>
 
             dist = sqDist(node.getPoint(), search_point);
 
-            if( dist < best )
+            if( dist < best_dist )
             {
-                best = dist;
+                best_dist = dist;
                 closest = node; 
             }
 
-            double dist_splitting_plane = sqDist(node, closest.getSplittingPlane()); 
+            double dist_splitting_plane = sqDist(node.getPoint(), closest.getSplittingPlane()); 
 
-            if( dist_splitting_plane < best )
+            if( dist_splitting_plane < best_dist )
             {
                 c.setAxis(node.getAxis());
 
@@ -119,7 +144,7 @@ class KDTree <T extends Number & Comparable<T>>
         }
     }
 
-    public double sqDist(ArrayList<T> a, ArrayList<T> b)
+    public double sqDist(ArrayList<Double> a, ArrayList<Double> b)
     {
         double dist = 0;
 
@@ -131,19 +156,4 @@ class KDTree <T extends Number & Comparable<T>>
         return dist;
     }
 
-    private class MyComparator<S extends Number & Comparable<S>> implements Comparator<ArrayList<S>>
-    {
-        private int axis;
-
-        @Override
-        public int compare(ArrayList<S> a, ArrayList<S> b)
-        {
-            return a.get(axis).compareTo(b.get(axis));
-        }
-
-        public void setAxis(int axis)
-        {
-            this.axis = axis;
-        }
-    }
 }

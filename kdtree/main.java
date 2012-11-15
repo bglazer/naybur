@@ -8,12 +8,12 @@ class MainTest
     {
         int dims = 2;
 
-        KDTree<Integer> kd = new KDTree(dims);
+        KDTree kd = new KDTree(dims);
 
-        int[][] points = {{2,3}, {5,4}, {9,6}, {4,7}, {8,1}, {7,2}};
+        double[][] points = {{2,3}, {5,4}, {9,6}, {4,7}, {8,1}, {7,2}};
 
-        ArrayList<ArrayList<Integer>> point_list = new ArrayList();
-        ArrayList<Integer> ta[] = new ArrayList[points.length];
+        ArrayList<ArrayList<Double>> point_list = new ArrayList();
+        ArrayList<Double> ta[] = new ArrayList[points.length];
 
         for(int i = 0; i < points.length; i++)
         {
@@ -28,14 +28,14 @@ class MainTest
         } 
 
    
-        KDNode<Integer> root = kd.build(point_list, 0);
+        KDNode root = kd.build(point_list, 0);
 
         printTree(root);
 
-        LinkedList<KDNode<Integer>> stack = new LinkedList<KDNode<Integer>>();
-        ArrayList<Integer> sp = new ArrayList<Integer>();
-        sp.add(8);
-        sp.add(5);
+        LinkedList<KDNode> stack = new LinkedList<KDNode>();
+        ArrayList<Double> sp = new ArrayList<Double>();
+        sp.add(8.0);
+        sp.add(5.0);
         
         kd.buildStack(stack, sp, kd.getRoot(), 0); 
 

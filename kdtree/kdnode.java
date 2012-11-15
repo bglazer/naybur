@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-class KDNode<T extends Number>
+class KDNode
 {
     private KDNode left, right;
-    private ArrayList<T> position;
+    private ArrayList<Double> position;
     private int axis;
 
-    public KDNode(ArrayList<T> position, int axis)
+    public KDNode(ArrayList position, int axis)
     {
         this.position = position;
         this.axis = axis;
@@ -34,7 +34,7 @@ class KDNode<T extends Number>
         return right;
     }
 
-    public ArrayList<T> getPoint()
+    public ArrayList getPoint()
     {
         return position;
     }
@@ -44,10 +44,19 @@ class KDNode<T extends Number>
         return axis;
     }
 
-    public T getSplitValue()
+    public ArrayList<Double> getSplittingPlane()
     {
-        T axis_value = position.get(axis);
+        double axis_value = position.get(axis);
+        
+        ArrayList<Double> splitting_plane = new ArrayList<Double>();
 
-        return axis_value;
+        for(int i = 0; i < position.size(); i++)
+        {
+            splitting_plane.add(0.0);
+        }
+        
+        splitting_plane.set(axis, axis_value);
+
+        return splitting_plane;
     }
 }

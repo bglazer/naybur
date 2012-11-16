@@ -1,3 +1,5 @@
+package naybur.kdtree;
+
 import java.util.ArrayList;
 
 class KDNode

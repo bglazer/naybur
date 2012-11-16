@@ -59,4 +59,9 @@ class KDNode
 
         return splitting_plane;
     }
+
+    public String toString()
+    {
+        return getPoint().toString();
+    }
 }

@@ -99,7 +99,7 @@ class KDTree
         return stack;
     }
 
-    public KDNode findNearest(KDNode root, ArrayList<Double> search_point)
+    public KDNode findNearest(ArrayList<Double> search_point)
     {
 
         LinkedList<KDNode> stack = new LinkedList();
@@ -126,22 +126,29 @@ class KDTree
                 closest = node; 
             }
 
-            double dist_splitting_plane = sqDist(node.getPoint(), closest.getSplittingPlane()); 
+            double dist_splitting_plane = sqDist(node.getPoint(), node.getSplittingPlane()); 
+            System.out.println(dist_splitting_plane + " dsp");
 
-            if( dist_splitting_plane < best_dist )
+            if( best_dist < dist_splitting_plane )
             {
                 c.setAxis(node.getAxis());
 
-                if(c.compare(search_point, node.getPoint()) > 0 && node.getLeft() != null)
+                KDNode left = node.getLeft();
+                KDNode right = node.getRight();
+
+                if(c.compare(search_point, node.getPoint()) > 0 && left != null)
                 {
-                    buildStack(stack, search_point, node.getLeft(), node.getAxis());
+                    buildStack(stack, search_point, left, left.getAxis());
                 }
-                else if(c.compare(search_point, node.getPoint()) < 0 && node.getRight() != null)
+                else if(c.compare(search_point, node.getPoint()) < 0 && right != null)
                 {
-                    buildStack(stack, search_point, node.getRight(), node.getAxis());
+                    buildStack(stack, search_point, right, right.getAxis());
                 }
             }
+
         }
+
+        return closest;
     }
 
     public double sqDist(ArrayList<Double> a, ArrayList<Double> b)

@@ -43,6 +43,13 @@ class MainTest
 
         for(KDNode n : stack)
             System.out.println(n.getPoint());
+
+        sp.clear();
+        sp.add(9.0);
+        sp.add(1.0);
+        
+        KDNode closest = kd.findNearest(sp);
+        System.out.println("\n" + closest.getPoint());
     } 
 
     public static void printTree(KDNode node)

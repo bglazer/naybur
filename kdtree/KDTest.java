@@ -1,3 +1,5 @@
+package naybur.kdtree;
+
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
@@ -9,22 +11,44 @@ public class KDTest{
     @BeforeClass
     public static void oneTimeSetUp() {
         int dims = 2;
+        int num_points = 100;
+        double scale_factor_x = 100;
+        double scale_factor_y = 100;
 
         KDTree kd = new KDTree(dims);
 
         ArrayList<ArrayList<Double>> point_list = new ArrayList();
-        ArrayList<Double> ta[] = new ArrayList[points.length];
+        ArrayList<ArrayList<Double>> test_points = new ArrayList();
 
-        for(int i = 0; i < points.length; i++)
+        for(int i = 0; i < num_points; i++)
         {
-            ta[i] = new ArrayList();
+            ArrayList<Double> temp_arraylist = new ArrayList();
 
-            for(int j = 0; j < points[i].length; j++)
+            temp_arraylist.add(Math.random() * scale_factor_x);    
+            temp_arraylist.add(Math.random() * scale_factor_y);
+
+            test_points.add(temp_arraylist);
+
+            ArrayList<Double> temp_arraylist2 = new ArrayList();
+            temp_arraylist2.add(Math.random() * scale_factor_x);    
+            temp_arraylist2.add(Math.random() * scale_factor_y);
+
+            point_list.add(temp_arraylist2);
+        }
+        
+        printPoints(test_points);
+    }
+
+    public static void printPoints(ArrayList<ArrayList<Double>> list)
+    {
+        for(int i = 0; i < list.size(); i++)
+        {
+            for(int j = 0; j < list.get(i).size(); j++)
             {
-                ta[i].add(points[i][j]);
+                System.out.print(list.get(i).get(j) + " " );
             }
 
-            point_list.add(ta[i]);
+            System.out.println();
         } 
     }
  
@@ -52,8 +76,5 @@ public class KDTest{
  
     @Test
     public void testOneItemCollection() {
-        collection.add("itemA");
-        assertEquals(1, collection.size());
-        System.out.println("@Test - testOneItemCollection");
     }
 }

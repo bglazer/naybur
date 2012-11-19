@@ -7,6 +7,7 @@ import java.util.*;
 public class KDTest{
  
     private ArrayList<ArrayList<Double>> point_list, test_points; 
+    private KDTree kd;
 
     @Before
     public void setUp()
@@ -36,8 +37,7 @@ public class KDTest{
 
             point_list.add(temp_arraylist2);
         }
-        
-//        printPoints(test_points);
+//        printPoints(point_list);
     }
 
     public static void printPoints(ArrayList<ArrayList<Double>> list)
@@ -61,11 +61,11 @@ public class KDTest{
     @Test
     public void testBuildTree() 
     {
-        KDTree kd = new KDTree(2);
+        kd = new KDTree(2);
 
         kd.build(point_list, 0);
 
-        
+//        KDTree.printTree(kd.getRoot());        
     }
 
     public static ArrayList<Double> linearSearch(ArrayList<ArrayList<Double>> list, ArrayList<Double> point)
@@ -91,10 +91,78 @@ public class KDTest{
 
         return best_point;
     }
+
+    @Test
+    public void testSearchCustom()
+    {
+        int dims = 2;
+
+        kd = new KDTree(dims);
+
+        double[][] points = {{2,3}, {5,4}, {9,6}, {4,7}, {8,1}, {7,2}};
+
+        ArrayList<ArrayList<Double>> custom_point_list = new ArrayList();
+        ArrayList<Double> ta[] = new ArrayList[points.length];
+
+        for(int i = 0; i < points.length; i++)
+        {
+            ta[i] = new ArrayList();
+
+            for(int j = 0; j < points[i].length; j++)
+            {
+                ta[i].add(points[i][j]);
+            }
+
+            custom_point_list.add(ta[i]);
+        } 
+
+   
+        KDNode root = kd.build(custom_point_list, 0);
+
+        KDTree.printTree(root);
+
+        LinkedList<KDNode> stack = new LinkedList<KDNode>();
+        ArrayList<Double> sp = new ArrayList<Double>();
+        sp.add(8.0);
+        sp.add(5.0);
+        
+        kd.buildStack(stack, sp, kd.getRoot(), 0); 
+
+        System.out.println();
+
+        for(KDNode n : stack)
+            System.out.println(n.getPoint());
+
+        sp.clear();
+        sp.add(9.0);
+        sp.add(1.0);
+        
+        KDNode closest = kd.findNearest(sp);
+        System.out.println("\n" + closest.getPoint());
+    } 
+
+
+          
+}
+    }
  
     @Test
-    public void testSearch() 
+    public void testSearchRandom() 
     {
+//        printPoints(point_list);
+//        printPoints(test_points);
 
+        kd = new KDTree(2);
+        kd.build(point_list, 0);
+
+        for(int i = 0; i < test_points.size(); i++)
+        {
+            ArrayList<Double> linear_result = linearSearch(point_list, test_points.get(i));
+
+            ArrayList<Double> kd_result = kd.findNearest(test_points.get(i)).getPoint();
+ 
+            assertEquals(linear_result.get(0), kd_result.get(0));
+            assertEquals(linear_result.get(1), kd_result.get(1));
+        }
     }
 }

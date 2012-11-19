@@ -6,10 +6,11 @@ import java.util.*;
  
 public class KDTest{
  
-    private Collection collection;
- 
-    @BeforeClass
-    public static void oneTimeSetUp() {
+    private ArrayList<ArrayList<Double>> point_list, test_points; 
+
+    @Before
+    public void setUp()
+    {
         int dims = 2;
         int num_points = 100;
         double scale_factor_x = 100;
@@ -17,8 +18,8 @@ public class KDTest{
 
         KDTree kd = new KDTree(dims);
 
-        ArrayList<ArrayList<Double>> point_list = new ArrayList();
-        ArrayList<ArrayList<Double>> test_points = new ArrayList();
+        point_list = new ArrayList();
+        test_points = new ArrayList();
 
         for(int i = 0; i < num_points; i++)
         {
@@ -36,7 +37,7 @@ public class KDTest{
             point_list.add(temp_arraylist2);
         }
         
-        printPoints(test_points);
+//        printPoints(test_points);
     }
 
     public static void printPoints(ArrayList<ArrayList<Double>> list)
@@ -51,30 +52,49 @@ public class KDTest{
             System.out.println();
         } 
     }
- 
-    @AfterClass
-    public static void oneTimeTearDown() {
-        // one-time cleanup code
-    	System.out.println("@AfterClass - oneTimeTearDown");
-    }
- 
-    @Before
-    public void setUp() {
-
-        System.out.println("@Before - setUp");
-    }
- 
+    
     @After
     public void tearDown() {
         System.out.println("@After - tearDown");
     }
  
     @Test
-    public void testEmptyCollection() {
-        System.out.println("@Test - testEmptyCollection");
+    public void testBuildTree() 
+    {
+        KDTree kd = new KDTree(2);
+
+        kd.build(point_list, 0);
+
+        
+    }
+
+    public static ArrayList<Double> linearSearch(ArrayList<ArrayList<Double>> list, ArrayList<Double> point)
+    {
+        double best_dist;
+        double dist;
+
+        ArrayList<Double> best_point = null;
+
+        dist = KDTree.sqDist(list.get(0), point);
+        best_dist = dist;
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            dist = KDTree.sqDist(list.get(i), point);
+
+            if(dist < best_dist)
+            {
+                best_dist = dist;
+                best_point = list.get(i);
+            }
+        }
+
+        return best_point;
     }
  
     @Test
-    public void testOneItemCollection() {
+    public void testSearch() 
+    {
+
     }
 }

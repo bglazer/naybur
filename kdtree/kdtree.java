@@ -153,11 +153,11 @@ class KDTree
         return closest;
     }
 
-    public double sqDist(ArrayList<Double> a, ArrayList<Double> b)
+    public static double sqDist(ArrayList<Double> a, ArrayList<Double> b)
     {
         double dist = 0;
 
-        for(int i = 0; i < dims; i++)
+        for(int i = 0; i < a.size(); i++)
         {
             dist += Math.pow(a.get(i) - b.get(i), 2);
         }

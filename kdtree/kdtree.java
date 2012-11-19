@@ -129,7 +129,6 @@ class KDTree
             }
 
             double dist_splitting_plane = sqDist(node.getPoint(), node.getSplittingPlane()); 
-            System.out.println(dist_splitting_plane + " dsp");
 
             if( best_dist < dist_splitting_plane )
             {
@@ -165,4 +164,29 @@ class KDTree
         return dist;
     }
 
+    public static void printTree(KDNode node)
+    {
+        LinkedList<KDNode> queue = new LinkedList();
+
+        queue.add(node);
+
+//        System.out.println(node.getPoint()); 
+
+        while(!queue.isEmpty())
+        {
+            KDNode n = queue.pop();
+
+            System.out.println(n.getPoint());
+
+            if(n.getLeft() != null)
+            {
+                queue.add(n.getLeft());
+            }
+
+            if(n.getRight() != null)
+            {
+                queue.add(n.getRight());
+            }
+        }
+    }
 }

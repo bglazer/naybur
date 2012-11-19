@@ -1,3 +1,3 @@
-stop at KDTree:105
-run MainTest
+read set_break
+run naybur.kdtree.MainTest
 monitor list

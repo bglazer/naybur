@@ -47,8 +47,8 @@ class MainTest
             System.out.println(n.getPoint());
 
         sp.clear();
-        sp.add(9.0);
-        sp.add(1.0);
+        sp.add(8.0);
+        sp.add(0.0);
         
         KDNode closest = kd.findNearest(sp);
         System.out.println("\n" + closest.getPoint());

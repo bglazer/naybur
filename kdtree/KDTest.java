@@ -119,33 +119,18 @@ public class KDTest{
    
         KDNode root = kd.build(custom_point_list, 0);
 
-        KDTree.printTree(root);
-
-        LinkedList<KDNode> stack = new LinkedList<KDNode>();
         ArrayList<Double> sp = new ArrayList<Double>();
-        sp.add(8.0);
-        sp.add(5.0);
+
+        sp.add(7.0);
+        sp.add(0.0);
         
-        kd.buildStack(stack, sp, kd.getRoot(), 0); 
+        ArrayList<Double> kd_result = kd.findNearest(sp).getPoint();
+        ArrayList<Double> linear_result = linearSearch(custom_point_list, sp);
 
-        System.out.println();
+        assertEquals(linear_result.get(0), kd_result.get(0));
+        assertEquals(linear_result.get(1), kd_result.get(1));
+} 
 
-        for(KDNode n : stack)
-            System.out.println(n.getPoint());
-
-        sp.clear();
-        sp.add(9.0);
-        sp.add(1.0);
-        
-        KDNode closest = kd.findNearest(sp);
-        System.out.println("\n" + closest.getPoint());
-    } 
-
-
-          
-
-    
- 
     @Test
     public void testSearchRandom() 
     {

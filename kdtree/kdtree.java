@@ -93,7 +93,7 @@ class KDTree
         {
             buildStack(stack, search_point, node.getLeft(), node.getLeft().getAxis());
         }
-        else if(c.compare(search_point, node.getPoint()) > 0 && node.getRight() != null)
+        else if(c.compare(search_point, node.getPoint()) >= 0 && node.getRight() != null)
         {
             buildStack(stack, search_point, node.getRight(), node.getRight().getAxis());
         }

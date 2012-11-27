@@ -13,9 +13,9 @@ public class KDTest{
     public void setUp()
     {
         int dims = 2;
-        int num_points = 100;
-        double scale_factor_x = 100;
-        double scale_factor_y = 100;
+        int num_points = 10;
+        double scale_factor_x = 10;
+        double scale_factor_y = 10;
 
         KDTree kd = new KDTree(dims);
 
@@ -26,14 +26,14 @@ public class KDTest{
         {
             ArrayList<Double> temp_arraylist = new ArrayList();
 
-            temp_arraylist.add(Math.random() * scale_factor_x);    
-            temp_arraylist.add(Math.random() * scale_factor_y);
+            temp_arraylist.add(Math.floor(Math.random() * scale_factor_x));
+            temp_arraylist.add(Math.floor(Math.random() * scale_factor_y));
 
             test_points.add(temp_arraylist);
 
             ArrayList<Double> temp_arraylist2 = new ArrayList();
-            temp_arraylist2.add(Math.random() * scale_factor_x);    
-            temp_arraylist2.add(Math.random() * scale_factor_y);
+            temp_arraylist2.add(Math.floor(Math.random() * scale_factor_x));
+            temp_arraylist2.add(Math.floor(Math.random() * scale_factor_y));
 
             point_list.add(temp_arraylist2);
         }
@@ -101,6 +101,17 @@ public class KDTest{
 
         double[][] points = {{2,3}, {5,4}, {9,6}, {4,7}, {8,1}, {7,2}};
 
+        /* {5.0, 0.0}
+        {1.0, 6.0}
+        {6.0, 9.0}
+        {4.0, 5.0}
+        {3.0, 9.0}
+        {7.0, 6.0}
+        {9.0, 9.0}
+        {3.0, 0.0}
+        {2.0, 8.0}
+        {6.0, 7.0} */
+
         ArrayList<ArrayList<Double>> custom_point_list = new ArrayList();
         ArrayList<Double> ta[] = new ArrayList[points.length];
 
@@ -129,16 +140,18 @@ public class KDTest{
 
         assertEquals(linear_result.get(0), kd_result.get(0));
         assertEquals(linear_result.get(1), kd_result.get(1));
-} 
+    } 
 
     @Test
     public void testSearchRandom() 
     {
 //        printPoints(point_list);
 //        printPoints(test_points);
-
         kd = new KDTree(2);
         kd.build(point_list, 0);
+
+        KDTree.printTree(kd.getRoot());
+        System.out.println("testSearchRandom");
 
         for(int i = 0; i < test_points.size(); i++)
         {
@@ -146,6 +159,7 @@ public class KDTest{
 
             ArrayList<Double> kd_result = kd.findNearest(test_points.get(i)).getPoint();
  
+            System.out.println(test_points.get(i));
             assertEquals(linear_result.get(0), kd_result.get(0));
             assertEquals(linear_result.get(1), kd_result.get(1));
         }

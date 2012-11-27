@@ -166,6 +166,8 @@ class KDTree
 
     public static void printTree(KDNode node)
     {
+        System.out.println("printTree");
+
         LinkedList<KDNode> queue = new LinkedList();
 
         queue.add(node);

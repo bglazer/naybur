@@ -73,8 +73,8 @@ class KDTree
         else
             return null;
 
-        node.setLeft( build(new ArrayList(point_list.subList(0, mid)), depth+1) );
         node.setRight( build(new ArrayList(point_list.subList(mid+1, size)), depth+1) );
+        node.setLeft( build(new ArrayList(point_list.subList(0, mid)), depth+1) );
 
         this.root = node;
 
@@ -89,11 +89,11 @@ class KDTree
 
         c.setAxis(axis);
 
-        if(c.compare(search_point, node.getPoint()) < 0 && node.getLeft() != null)
+        if(c.compare(search_point, node.getPoint()) <= 0 && node.getLeft() != null)
         {
             buildStack(stack, search_point, node.getLeft(), node.getLeft().getAxis());
         }
-        else if(c.compare(search_point, node.getPoint()) >= 0 && node.getRight() != null)
+        else if(c.compare(search_point, node.getPoint()) > 0 && node.getRight() != null)
         {
             buildStack(stack, search_point, node.getRight(), node.getRight().getAxis());
         }
@@ -110,7 +110,7 @@ class KDTree
 
         buildStack(stack, search_point, root, 0);
 
-        KDNode node = stack.pop();
+        KDNode node = stack.peek();
         KDNode closest = node;
         
         double best_dist = sqDist(node.getPoint(), search_point);
@@ -128,9 +128,9 @@ class KDTree
                 closest = node; 
             }
 
-            double dist_splitting_plane = sqDist(node.getPoint(), node.getSplittingPlane()); 
+            double dist_splitting_plane = Math.pow(search_point.get(node.getAxis()) - (Double)node.getPoint().get(node.getAxis()), 2);
 
-            if( best_dist < dist_splitting_plane )
+            if( dist_splitting_plane <= best_dist )
             {
                 c.setAxis(node.getAxis());
 
@@ -141,7 +141,7 @@ class KDTree
                 {
                     buildStack(stack, search_point, left, left.getAxis());
                 }
-                else if(c.compare(search_point, node.getPoint()) < 0 && right != null)
+                else if(c.compare(search_point, node.getPoint()) <= 0 && right != null)
                 {
                     buildStack(stack, search_point, right, right.getAxis());
                 }

@@ -62,27 +62,33 @@ public class KDTest{
 
     public static void printPoints(ArrayList<ArrayList<Double>> list)
     {
-        System.out.println("{ ");
+        System.out.println("printPoints");
+        System.out.print("{ ");
 
         int i, j = 0;
 
         for(i = 0; i < list.size()-1; i++)
         {
-            System.out.println("{");
+            System.out.print("{");
 
             for(j = 0; j < list.get(i).size()-1; j++)
             {
                 System.out.print(list.get(i).get(j) + ", " );
             }
 
-            System.out.println(list.get(i).get(j+1) + "}, ");
+            System.out.print(list.get(i).get(j) + "}, ");
 
         } 
 
+        System.out.print("{");
+
         for(j = 0; j < list.get(i).size()-1; j++)
         {
-            System.out.print(list.get(i+1).get(j) + ", " );
+            System.out.print(list.get(i).get(j) + ", " );
         }
+
+        System.out.print(list.get(i).get(j) + "} }");
+        System.out.println();
     }
     
     @After

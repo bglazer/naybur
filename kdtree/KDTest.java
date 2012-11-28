@@ -176,11 +176,11 @@ public class KDTest{
         ArrayList<Double> kd_result = kd.findNearest(sp).getPoint();
         ArrayList<Double> linear_result = linearSearch(custom_point_list, sp);
 
-        System.out.println();
+/*        System.out.println();
         System.out.println(kd_result);
         System.out.println(linear_result);
         System.out.println();
-
+*/
         double linear_dist = KDTree.sqDist(linear_result, sp);
         double kd_dist  = KDTree.sqDist(kd_result, sp);
 

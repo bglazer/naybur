@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 class OIGrid
 {
-    private LinkedList<Double[]>[][] grid; 
+    private LinkedList[][] grid; 
 
     private double delta;
 
@@ -12,27 +12,28 @@ class OIGrid
 
     private double[][] point_list;
 
-    public OIGrid(double[][] points, double delta) 
+    public OIGrid(double[][] points, double width, double height, double delta) 
+    {
+        grid = new LinkedList[(int)(width/delta)][(int)(height/delta)];
+        overhaul(points, delta);
+    }
+
+    public void overhaul(double[][] points, double delta)
     {
         this.delta = delta;
 
         point_list = points;
 
-        for(int i = 0; i < point_list.size(); i++)
+        for(int i = 0; i < point_list.length; i++)
         {
-            cell_index_x = Math.floor(point_list[i][0]/delta);
-            cell_index_y = Math.floor(point_list[i][1]/delta);
+            int cell_index_x = (int)Math.floor(point_list[i][0]/delta);
+            int cell_index_y = (int)Math.floor(point_list[i][1]/delta);
 
-            LinkedList<Double[]> cell = grid[cell_index_x][cell_index_y];
-
+            LinkedList cell = grid[cell_index_x][cell_index_y];
+            
             cell.add(point_list[i]);
 
         }
-    }
-
-    public void overhaul(double[] points)
-    {
-
     }
 
 }

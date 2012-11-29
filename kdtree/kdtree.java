@@ -11,16 +11,30 @@ class KDTree
     private KDNode root;
     private int dims;
 
+    /**
+      * Returns the root node of the kdtree ie the topmost node. 
+      *
+      */
+
     public KDNode getRoot()
     {
         return root;
     }
 
+    /**
+      * Initialize a zero element kdtree.
+      *
+      * @param dims number of dimensions of the kdtree
+      */
     public KDTree(int dims)
     {
         this.dims = dims;
     }
-    
+
+    /**
+      * Custom Comparator class to compare points based on a specified dimension. 
+      *
+      */
     private class MyComparator<T extends Double> implements Comparator<ArrayList<T>>
     {
         private int axis;
@@ -42,6 +56,11 @@ class KDTree
         }
     }
 
+    /**
+      * Build a kdtree recursively using a list of points. 
+      *
+      * @param
+      */
     public KDNode build(ArrayList<ArrayList<Double>> point_list, int depth)
     {
         int axis = depth % dims;

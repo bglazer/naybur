@@ -1,5 +1,7 @@
 package naybur.kdtree;
 
+import naybur.Utility;
+
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
@@ -60,8 +62,8 @@ public class KDTest{
  
 //            System.out.println(i + ": " + test_points.get(i));
 
-            double linear_dist = KDTree.sqDist(linear_result, test_points.get(i));
-            double kd_dist  = KDTree.sqDist(kd_result, test_points.get(i));
+            double linear_dist = Utility.sqDist(linear_result, test_points.get(i));
+            double kd_dist  = Utility.sqDist(kd_result, test_points.get(i));
 
             assertEquals(linear_dist, kd_dist, .00001);
         }
@@ -112,12 +114,12 @@ public class KDTest{
 
         ArrayList<Double> best_point = list.get(0);
 
-        dist = KDTree.sqDist(list.get(0), point);
+        dist = Utility.sqDist(list.get(0), point);
         best_dist = dist;
 
         for(int i = 0; i < list.size(); i++)
         {
-            dist = KDTree.sqDist(list.get(i), point);
+            dist = Utility.sqDist(list.get(i), point);
 
             if(dist < best_dist)
             {
@@ -181,8 +183,8 @@ public class KDTest{
         System.out.println(linear_result);
         System.out.println();
 */
-        double linear_dist = KDTree.sqDist(linear_result, sp);
-        double kd_dist  = KDTree.sqDist(kd_result, sp);
+        double linear_dist = Utility.sqDist(linear_result, sp);
+        double kd_dist  = Utility.sqDist(kd_result, sp);
 
         assertEquals(linear_dist, kd_dist, .00001);
     } 

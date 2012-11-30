@@ -1,5 +1,7 @@
 package naybur.kdtree;
 
+import naybur.Utility;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -113,14 +115,14 @@ class KDTree
         KDNode node = stack.peek();
         KDNode closest = node;
         
-        double best_dist = sqDist(node.getPoint(), search_point);
+        double best_dist = Utility.sqDist(node.getPoint(), search_point);
         double dist;
 
         while(!stack.isEmpty())
         {
             node = stack.pop();
 
-            dist = sqDist(node.getPoint(), search_point);
+            dist = Utility.sqDist(node.getPoint(), search_point);
 
             if( dist < best_dist )
             {
@@ -150,18 +152,6 @@ class KDTree
         }
 
         return closest;
-    }
-
-    public static double sqDist(ArrayList<Double> a, ArrayList<Double> b)
-    {
-        double dist = 0;
-
-        for(int i = 0; i < a.size(); i++)
-        {
-            dist += Math.pow(a.get(i) - b.get(i), 2);
-        }
-
-        return dist;
     }
 
     public static void printTree(KDNode node)

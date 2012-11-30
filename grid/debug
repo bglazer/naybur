@@ -1,0 +1,3 @@
+read set_break
+run org.junit.runner.JUnitCore naybur.grid.OITest
+monitor list

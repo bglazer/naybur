@@ -2,6 +2,7 @@ package naybur.grid;
 
 import naybur.Utility;
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 class OIGrid
 {
@@ -41,8 +42,113 @@ class OIGrid
 
     public double[] findNearest(double[] search_point)
     {
-        double[] result = {0, 0};
-        return result;
+        int[] search_cell = { (int)Math.floor(search_point[0]/delta), (int)Math.floor(search_point[1]/delta) };
+        Rect rect = new Rect(0, search_cell);
+
+        ArrayList points = rect.findPoints(3); 
+        
+        for(int i = 0; i < points.size(); i++)
+        {
+        }
+    }
+
+
+    private class Rect
+    {
+        public int len;
+        public int[] cent;
+        public ArrayList points;
+
+        public Rect(int len, int[] cent)
+        {
+            this.len = len;
+            this.cent = cent;
+        }
+
+        public ArrayList findPoints(int k)
+        {
+            ArrayList points = new ArrayList();
+
+            boolean[][] visited = new boolean[grid.length][grid[0].length];
+            LinkedList queue = new LinkedList(), next_queue = new LinkedList();
+
+            int[][] directions = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+
+            next_queue.push(cent);
+            visited[cent[0]][cent[1]] = true;
+
+            while(points.size() < k)
+            {
+                queue = next_queue;
+                next_queue.clear();
+                
+                while(!queue.isEmpty())
+                {
+                    int[] cell = (int[])queue.pop();
+                    points.addAll(grid[cell[0]][cell[1]]);
+
+                    //North
+                    int[] temp_cell = { cell[0], cell[1] + 1};
+                    if(temp_cell[1] < grid.length && !visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        if(temp_cell[1] > cent[1] + len)
+                            next_queue.push(temp_cell);
+                    }
+                    else if(!visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        queue.push(temp_cell);
+                        points.addAll(grid[temp_cell[0]][temp_cell[1]]);
+                    }
+
+                    //South
+                    temp_cell[0] = cell[0];
+                    temp_cell[1] = cell[1];
+
+                    if(temp_cell[1] >= 0 && !visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        if(temp_cell[1] < cent[1] - len)
+                            next_queue.push(grid[temp_cell[0]][temp_cell[1]]);
+                    }
+                    else if(!visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        queue.push(temp_cell);
+                        points.addAll(grid[temp_cell[0]][temp_cell[1]]);
+                    }
+
+                    //East
+                    temp_cell[0] = cell[0] + 1;
+                    temp_cell[1] = cell[1];
+
+                    if(temp_cell[0] < grid.length && !visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        if(temp_cell[0] > cent[0] + len)
+                            next_queue.push(grid[temp_cell[0]][temp_cell[1]]);
+                    } 
+                    else if(!visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        queue.push(temp_cell);
+                        points.addAll(grid[temp_cell[0]][temp_cell[1]]);
+                    }
+
+                    //West
+                    temp_cell[0] = cell[0] - 1;
+                    temp_cell[1] = cell[1];
+
+                    if(temp_cell[0] >= 0 && !visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        if(temp_cell[0] < cent[0] - len)
+                            next_queue.push(grid[temp_cell[0]][temp_cell[1]]);
+                    }
+                    else if(!visited[temp_cell[0]][temp_cell[1]])
+                    {
+                        queue.push(temp_cell);
+                        points.addAll(grid[temp_cell[0]][temp_cell[1]]);
+                    }
+                }
+            }
+
+            return points;
+        }
     }
 
 }

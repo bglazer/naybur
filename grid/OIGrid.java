@@ -1,6 +1,8 @@
 package naybur.grid;
 
 import naybur.Utility;
+import java.util.Comparator;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ArrayList;
 
@@ -14,7 +16,7 @@ class OIGrid
 
     private double[][] point_list;
 
-    public OIGrid(double[][] points, double delta) 
+    public OIGrid(double[][] points, double delta, double[] range_x, double[] range_y) 
     {
         grid = new LinkedList[(int)(1/delta)][(int)(1/delta)];
         overhaul(points, delta);
@@ -40,18 +42,29 @@ class OIGrid
         }
     }
 
-    public double[] findNearest(double[] search_point)
+    public double[][] findNearest(double[] search_point, int k)
     {
-        int[] search_cell = { (int)Math.floor(search_point[0]/delta), (int)Math.floor(search_point[1]/delta) };
-        Rect rect = new Rect(0, search_cell);
+        int[][] search_cell = { { (int)Math.floor(search_point[0]/delta), (int)Math.floor(search_point[1]/delta) } };
+        int[] start_range = {};
+        int[] end_range = {};
+
+        double[][] searchp_mapped = Utility.map(search_point, 
+
+        Rect rect = new Rect(0, searchp_mapped[0]);
 
         ArrayList points = rect.findPoints(3); 
         
+        double[] dist = new double[points.size()];
+
         for(int i = 0; i < points.size(); i++)
         {
+            dist[i] = Utility.sqDistArray(search_point, (double[])points.get(i));
         }
-    }
 
+        double[][] results = new double[k][2];
+
+        return results;
+    }
 
     private class Rect
     {
@@ -81,7 +94,7 @@ class OIGrid
             {
                 queue = next_queue;
                 next_queue.clear();
-                
+
                 while(!queue.isEmpty())
                 {
                     int[] cell = (int[])queue.pop();
@@ -146,6 +159,8 @@ class OIGrid
                     }
                 }
             }
+
+            len++;
 
             return points;
         }

@@ -44,4 +44,18 @@ public class Utility
         return point_list;
     }
 
+    public static double[] map(double[] point_list, double[] start_range, double[] end_range, int dims)
+    {
+        double start_diff = Math.abs(start_range[0] - start_range[1]);
+        double end_diff = Math.abs(end_range[0] - end_range[1]);
+
+        for(int j = 0; j < dims; j++)
+        {
+            point_list[j] = ((point_list[j] - start_range[0])/start_diff + end_range[0]) * end_diff; 
+        }
+
+        return point_list;
+    }
+
+
 }

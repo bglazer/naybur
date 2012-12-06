@@ -140,7 +140,8 @@ public class OITest{
         
         printPoints(point_list);
 
-        grid = new OIGrid(point_list, delta);
+        double[] range = { 0,1 };
+        grid = new OIGrid(point_list, delta, );
 
 //        OIGrid.printTree(grid.getRoot());        
     }

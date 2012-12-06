@@ -15,14 +15,19 @@ class OIGrid
     private int len;
 
     private double[][] point_list;
+    private double[] range[];
 
-    public OIGrid(double[][] points, double delta, double[] range_x, double[] range_y) 
+    public OIGrid(double[][] points, double delta, double[] range_x, double[] range_y)
     {
         grid = new LinkedList[(int)(1/delta)][(int)(1/delta)];
-        overhaul(points, delta);
+        overhaul(points);
+
+        this.range = range;
+        double[] end_range = { 0,1 }; 
+        points = Utility.map(points, range, end_range, 2);
     }
 
-    public void overhaul(double[][] points, double delta)
+    public void overhaul(double[][] points)
     {
         this.delta = delta;
 
@@ -44,13 +49,13 @@ class OIGrid
 
     public double[][] findNearest(double[] search_point, int k)
     {
-        int[][] search_cell = { { (int)Math.floor(search_point[0]/delta), (int)Math.floor(search_point[1]/delta) } };
-        int[] start_range = {};
-        int[] end_range = {};
+        double[] end_range  = {0,1};
+        
+        double[] searchp_mapped = Utility.map(search_point, range, end_range, 2); 
 
-        double[][] searchp_mapped = Utility.map(search_point, 
+        int[] search_cell = { (int)Math.floor(searchp_mapped[0]/delta), (int)Math.floor(searchp_mapped[1]/delta) } ;
 
-        Rect rect = new Rect(0, searchp_mapped[0]);
+        Rect rect = new Rect(0, searchp_mapped);
 
         ArrayList points = rect.findPoints(3); 
         

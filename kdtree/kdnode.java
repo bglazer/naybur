@@ -2,7 +2,7 @@ package naybur.kdtree;
 
 import java.util.ArrayList;
 
-class KDNode
+public class KDNode
 {
     private KDNode left, right;
     private ArrayList<Double> position;

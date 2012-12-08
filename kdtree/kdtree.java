@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.LinkedList;
 
-class KDTree
+public class KDTree
 {
     private KDNode root;
     private int dims;

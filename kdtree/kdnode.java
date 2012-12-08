@@ -9,7 +9,7 @@ class KDNode
     private int axis;
 
     /**
-      * Constructor that builds a KDNode with a given 
+      * Constructor that builds a KDNode with a given position, on a given axis.
       *
       * @param
       */
@@ -51,6 +51,11 @@ class KDNode
         return axis;
     }
 
+    /**
+      * Returns an ArrayList that contains all zeros except at the axis, which is the value of the position for that axis.
+      *
+      * @param
+      */
     public ArrayList<Double> getSplittingPlane()
     {
         double axis_value = position.get(axis);

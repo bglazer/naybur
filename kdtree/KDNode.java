@@ -2,13 +2,18 @@ package naybur.kdtree;
 
 import java.util.ArrayList;
 
-class KDNode
+public class KDNode
 {
     private KDNode left, right;
     private ArrayList<Double> position;
     private int axis;
 
-    public KDNode(ArrayList position, int axis)
+    /**
+      * Constructor that builds a KDNode with a given position, on a given axis.
+      *
+      * @param
+      */
+    public KDNode(ArrayList<Double> position, int axis)
     {
         this.position = position;
         this.axis = axis;
@@ -36,7 +41,7 @@ class KDNode
         return right;
     }
 
-    public ArrayList getPoint()
+    public ArrayList<Double> getPoint()
     {
         return position;
     }
@@ -46,6 +51,11 @@ class KDNode
         return axis;
     }
 
+    /**
+      * Returns an ArrayList that contains all zeros except at the axis, which is the value of the position for that axis.
+      *
+      * @param
+      */
     public ArrayList<Double> getSplittingPlane()
     {
         double axis_value = position.get(axis);

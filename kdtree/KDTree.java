@@ -8,21 +8,35 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.LinkedList;
 
-class KDTree
+public class KDTree
 {
     private KDNode root;
     private int dims;
+
+    /**
+      * Returns the root node of the kdtree ie the topmost node. 
+      *
+      */
 
     public KDNode getRoot()
     {
         return root;
     }
 
+    /**
+      * Initialize a zero element kdtree.
+      *
+      * @param dims number of dimensions of the kdtree
+      */
     public KDTree(int dims)
     {
         this.dims = dims;
     }
-    
+
+    /**
+      * Custom Comparator class to compare points based on a specified dimension. 
+      *
+      */
     private class MyComparator<T extends Double> implements Comparator<ArrayList<T>>
     {
         private int axis;
@@ -44,6 +58,11 @@ class KDTree
         }
     }
 
+    /**
+      * Build a kdtree recursively using a list of points. 
+      *
+      * @param
+      */
     public KDNode build(ArrayList<ArrayList<Double>> point_list, int depth)
     {
         int axis = depth % dims;
@@ -82,9 +101,21 @@ class KDTree
 
         return node;
     }
+    
+    /**
+      * Given a search point, constructs a LIFO LinkedList stack of nodes. This stack contains all the nodes that would be traversed 
+      * in order to add the search point to the tree. This is a crucial step in doing the nearest neighbor search.
+      *
+      * @param stack The LinkedList stack that you want to use. Can be empty or already contain elements.
+      * @param search_point Search point that is used to find the right nodes to add to the stack
+      * @param node Node to start the search from
+      * @param axis Axis of the given node.
+      */
 
-    public LinkedList<KDNode> buildStack(LinkedList<KDNode> stack, ArrayList<Double> search_point, KDNode node, int axis)
+    private LinkedList<KDNode> buildStack(LinkedList<KDNode> stack, ArrayList<Double> search_point, KDNode node )
     {
+        int axis = node.getAxis();
+
         stack.push(node);
        
         MyComparator c = new MyComparator();
@@ -93,15 +124,21 @@ class KDTree
 
         if(c.compare(search_point, node.getPoint()) <= 0 && node.getLeft() != null)
         {
-            buildStack(stack, search_point, node.getLeft(), node.getLeft().getAxis());
+            buildStack(stack, search_point, node.getLeft());
         }
         else if(c.compare(search_point, node.getPoint()) > 0 && node.getRight() != null)
         {
-            buildStack(stack, search_point, node.getRight(), node.getRight().getAxis());
+            buildStack(stack, search_point, node.getRight());
         }
 
         return stack;
     }
+
+    /**
+      * Finds the nearest point in the KDTree to a given search point.
+      *
+      * @param search_point Search point used to do the nearest neighbor search.
+      */
 
     public KDNode findNearest(ArrayList<Double> search_point)
     {
@@ -110,7 +147,7 @@ class KDTree
         
         MyComparator c = new MyComparator();
 
-        buildStack(stack, search_point, root, 0);
+        buildStack(stack, search_point, root );
 
         KDNode node = stack.peek();
         KDNode closest = node;
@@ -141,11 +178,11 @@ class KDTree
 
                 if(c.compare(search_point, node.getPoint()) > 0 && left != null)
                 {
-                    buildStack(stack, search_point, left, left.getAxis());
+                    buildStack(stack, search_point, left);
                 }
                 else if(c.compare(search_point, node.getPoint()) <= 0 && right != null)
                 {
-                    buildStack(stack, search_point, right, right.getAxis());
+                    buildStack(stack, search_point, right);
                 }
             }
 

@@ -18,6 +18,17 @@ public class KDTest{
     {
     }
 
+    /**
+      * Create a list of numbers.
+      *
+      *
+      * @param num_points Number of points in the list.
+      * @param integers True - List contains integers. 
+      *                 False - List contains doubles.
+      * @param negative True - Negative numbers are included.
+      *                 False - Only positive numbers. 
+      *
+      */
     public ArrayList<ArrayList<Double>> createTestList(int num_points, boolean integers, boolean negative)
     {
         ArrayList<ArrayList<Double>> test_list = new ArrayList();
@@ -50,6 +61,13 @@ public class KDTest{
         return test_list;
     } 
 
+    /** 
+      * Given a list of points used to create a kdtree and a list of search_points, test that the results of searching this kd tree
+      * match a linear search.
+      *  
+      * @param point_list A list of points used to construct kdtree. 
+      * @param test_points List of search points to test. 
+      */
     public void compareResults(ArrayList<ArrayList<Double>> point_list, ArrayList<ArrayList<Double>> test_points)
     {
         System.out.println("compareResults");
@@ -70,7 +88,11 @@ public class KDTest{
 
     }
 
-
+    /**
+      * Print a list of points to stdout. 
+      *
+      * @param list list to print
+      */
     public static void printPoints(ArrayList<ArrayList<Double>> list)
     {
         System.out.println("printPoints");
@@ -106,6 +128,13 @@ public class KDTest{
     public void tearDown() {
     }
  
+    /**
+      * Find the closest point in a list to a given search point. Uses a simple linear search that iterates
+      * over every point and calculates the distance between the test and search point.
+      *
+      * @param list List of points to search over.
+      * @param point Point to search for. 
+      */
 
     public static ArrayList<Double> linearSearch(ArrayList<ArrayList<Double>> list, ArrayList<Double> point)
     { 
@@ -130,6 +159,11 @@ public class KDTest{
 
         return best_point;
     }
+    
+    /**
+      * Builds a kdtree.  
+      *
+      */
 
     @Test
     public void testBuildTree() 
@@ -143,6 +177,12 @@ public class KDTest{
 //        printPoints(point_list);
 //        KDTree.printTree(kd.getRoot());        
     }
+
+    /**
+      * Nearest neighbor search for a custom list of points.  
+      * Tests kdtree against a linear search for a correct distance between the search point and its nearest neighbor. 
+      *
+      */
 
     @Test
     public void testSearchCustom()
@@ -189,6 +229,11 @@ public class KDTest{
         assertEquals(linear_dist, kd_dist, .00001);
     } 
 
+    /**
+      * Test nearest neighbor using positive integers.
+      * Tests kdtree against a linear search for a correct distance between the search point and its nearest neighbor. 
+      */
+
     @Test
     public void testSearchRandomIntegerPos() 
     {
@@ -207,6 +252,12 @@ public class KDTest{
         compareResults(point_list, test_points);
     }
 
+    /**
+      * Test nearest neighbor using positive doubles.
+      * Tests kdtree against a linear search for a correct distance between the search point and its nearest neighbor. 
+      *
+      */
+
     @Test 
     public void testSearchRandomDoublePos()
     {
@@ -223,6 +274,11 @@ public class KDTest{
         compareResults(point_list, test_points);
     }
 
+    /**
+      * Nearest neighbor search using a test set of random integers over a kdtree of random integers with negatives included.
+      * Tests kdtree against a linear search for a correct distance between the search point and its nearest neighbor. 
+      *
+      */
     @Test
     public void testSearchRandomIntegerNeg() 
     {
@@ -241,6 +297,11 @@ public class KDTest{
         compareResults(point_list, test_points);
     }
 
+    /**
+      * Nearest neighbor search using a test set of random doubles over a kdtree of random doubles with negatives included. 
+      * Tests kdtree against a linear search for a correct distance between the search point and its nearest neighbor. 
+      *
+      */
     @Test
     public void testSearchRandomDoubleNeg()
     {

@@ -8,7 +8,12 @@ class KDNode
     private ArrayList<Double> position;
     private int axis;
 
-    public KDNode(ArrayList position, int axis)
+    /**
+      * Constructor that builds a KDNode with a given 
+      *
+      * @param
+      */
+    public KDNode(ArrayList<Double> position, int axis)
     {
         this.position = position;
         this.axis = axis;
@@ -36,7 +41,7 @@ class KDNode
         return right;
     }
 
-    public ArrayList getPoint()
+    public ArrayList<Double> getPoint()
     {
         return position;
     }

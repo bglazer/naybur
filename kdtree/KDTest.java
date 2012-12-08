@@ -230,8 +230,6 @@ public class KDTest{
     /**
       * Test nearest neighbor using positive integers.
       * Tests kdtree against a linear search for a correct distance between the search point and its nearest neighbor. 
-      *
-      * @param
       */
 
     @Test

@@ -45,7 +45,7 @@ public class Utility
       *
       * @param point_list The list of points to be mapped
       * @param start_range The range that the points lie within. All coordinates of the point must lie within this range. 
-      * @param end_range The rnage that the points should be mapped to
+      * @param end_range The range that the points should be mapped to
       * @param dims The dimensionality of the points
       */
     public static double[][] map(double[][] point_list, double[] start_range, double[] end_range, int dims)

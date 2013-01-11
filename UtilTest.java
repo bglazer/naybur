@@ -2,15 +2,9 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
  
+import static naybur.Utility.*;
 
 public class UtilTest{
-    @Test
-    public void testSqDistArrayList()
-    {}
-
-    @Test
-    public void testSqDistArray()
-    {}
 
     @Test
     public void testMapArray()

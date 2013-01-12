@@ -26,7 +26,7 @@ public class Utility
       *
       * @param
       */
-    public static double sqDistArray(double[] a, double[] b)
+    public static double sqDist(double[] a, double[] b)
     {
         double dist = 0;
 
@@ -120,4 +120,69 @@ public class Utility
 
         return mapped_list;
     }
+
+    /**
+      * Find the closest point in a list to a given search point. Uses a simple linear search that iterates
+      * over every point and calculates the distance between the test and search point.
+      *
+      * @param list List of points to search over.
+      * @param point Point to search for. 
+      */
+
+    public static ArrayList<Double> linearSearch(ArrayList<ArrayList<Double>> list, ArrayList<Double> point)
+    { 
+        double best_dist;
+        double dist;
+
+        ArrayList<Double> best_point = list.get(0);
+
+        dist = Utility.sqDist(list.get(0), point);
+        best_dist = dist;
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            dist = Utility.sqDist(list.get(i), point);
+
+            if(dist < best_dist)
+            {
+                best_dist = dist;
+                best_point = list.get(i);
+            }
+        }
+
+        return best_point;
+    }
+
+    /**
+      * Find the closest point in a list to a given search point. Uses a simple linear search that iterates
+      * over every point and calculates the distance between the test and search point.
+      *
+      * @param list List of points to search over.
+      * @param point Point to search for. 
+      */
+
+    public static double[] linearSearch(double[][] list, double[] point)
+    { 
+        double best_dist;
+        double dist;
+
+        double[] best_point = list[0];
+
+        dist = Utility.sqDist(list[0], point);
+        best_dist = dist;
+
+        for(int i = 0; i < list.length; i++)
+        {
+            dist = Utility.sqDist(list[i], point);
+
+            if(dist < best_dist)
+            {
+                best_dist = dist;
+                best_point = list[i];
+            }
+        }
+
+        return best_point;
+    }
+
 }

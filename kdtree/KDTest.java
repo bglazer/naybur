@@ -1,6 +1,6 @@
 package naybur.kdtree;
 
-import naybur.Utility;
+import static naybur.Utility.*;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -80,8 +80,8 @@ public class KDTest{
  
 //            System.out.println(i + ": " + test_points.get(i));
 
-            double linear_dist = Utility.sqDist(linear_result, test_points.get(i));
-            double kd_dist  = Utility.sqDist(kd_result, test_points.get(i));
+            double linear_dist = sqDist(linear_result, test_points.get(i));
+            double kd_dist  = sqDist(kd_result, test_points.get(i));
 
             assertEquals(linear_dist, kd_dist, .00001);
         }
@@ -128,37 +128,6 @@ public class KDTest{
     public void tearDown() {
     }
  
-    /**
-      * Find the closest point in a list to a given search point. Uses a simple linear search that iterates
-      * over every point and calculates the distance between the test and search point.
-      *
-      * @param list List of points to search over.
-      * @param point Point to search for. 
-      */
-
-    public static ArrayList<Double> linearSearch(ArrayList<ArrayList<Double>> list, ArrayList<Double> point)
-    { 
-        double best_dist;
-        double dist;
-
-        ArrayList<Double> best_point = list.get(0);
-
-        dist = Utility.sqDist(list.get(0), point);
-        best_dist = dist;
-
-        for(int i = 0; i < list.size(); i++)
-        {
-            dist = Utility.sqDist(list.get(i), point);
-
-            if(dist < best_dist)
-            {
-                best_dist = dist;
-                best_point = list.get(i);
-            }
-        }
-
-        return best_point;
-    }
     
     /**
       * Builds a kdtree.  
@@ -223,8 +192,8 @@ public class KDTest{
         System.out.println(linear_result);
         System.out.println();
 */
-        double linear_dist = Utility.sqDist(linear_result, sp);
-        double kd_dist  = Utility.sqDist(kd_result, sp);
+        double linear_dist = sqDist(linear_result, sp);
+        double kd_dist  = sqDist(kd_result, sp);
 
         assertEquals(linear_dist, kd_dist, .00001);
     } 

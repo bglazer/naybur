@@ -17,6 +17,9 @@ public class UtilTest{
 
     private double[][] point_list;
 
+    private double[] test_point;
+    private double[] test_point_mapped;
+
     @Before
     public void setUp()
     {
@@ -34,6 +37,16 @@ public class UtilTest{
         
         point_list = new double[num_elements][dims];
 
+        test_point = new double[dims];
+
+        for(int j = 0; j < dims; j++)
+        {
+            test_point[j] = Math.random() * start_diff - start_diff/2;
+        }
+       
+        //I'm going to assume that map for a single point works correctly here.
+        test_point_mapped = map(test_point, start_range, end_range, dims);
+
         for(int i = 0; i < num_elements; i++)
         {
            for(int j = 0; j < dims; j++)
@@ -48,12 +61,18 @@ public class UtilTest{
     {
         double[][] mapped_list = map(point_list, start_range, end_range, dims);
 
+        int closest = linearSearch(point_list, test_point);
+        int closest_mapped = linearSearch(mapped_list, test_point_mapped);
+
+        assertEquals(closest, closest_mapped);
+
         for(int i = 0; i < num_elements; i++)
         {
            for(int j = 0; j < dims; j++)
            {
 //               System.out.println(i + " " + point_list[i][j] + " " + mapped_list[i][j]);
                assertTrue( mapped_list[i][j] > end_low &&  mapped_list[i][j] < end_high ); 
+                
            }
         }
 
@@ -78,14 +97,22 @@ public class UtilTest{
         double[][] range = { {-10, 10}, {0, 10} }; 
         double[][] rectangle_list = { {-8,8}, {-4,4}, {6,2}, {8,6}, {4,8} };
         double[][] mapped_list = map(rectangle_list, range);
+        double[]   test_point = {-6,4};
+        double[]   test_point_mapped = {.2,.2};
+
+        int closest = linearSearch(rectangle_list, test_point);
+        int closest_mapped = linearSearch(mapped_list, test_point_mapped);
+
+        assertEquals(closest, closest_mapped);
 
         for(int i = 0; i < rectangle_list.length; i++)
         {
             for(int j = 0; j < 2; j++)
             {
-                System.out.println( rectangle_list[i][j] + " " + mapped_list[i][j] );
+//                System.out.println( rectangle_list[i][j] + " " + mapped_list[i][j] );
                 assertTrue( mapped_list[i][j] > 0 &&  mapped_list[i][j] < 1 ); 
             }
         }
     }
+
 }

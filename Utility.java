@@ -104,7 +104,7 @@ public class Utility
 
         for(int i = 0; i < range.length; i++)
         {
-            double diff = Math.abs(start_range[i][0] - start_range[i][1]);
+            double diff = Math.abs(range[i][0] - range[i][1]);
 
             if(diff > largest_diff) 
                 largest_diff = diff;
@@ -114,8 +114,7 @@ public class Utility
         {
             for(int j = 0; j < 2; j++)
             {
-                point_list[i][j] = (point_list[i][j] - start_range[j][0])/start_diff;
-                mapped_list[i][j] = ((point_list[i][j] - start_range[0])/start_diff * end_diff) + end_range[0]; 
+                mapped_list[i][j] = ((point_list[i][j] - range[j][0])/largest_diff); 
             }
         }
 

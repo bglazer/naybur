@@ -66,7 +66,7 @@ public class UtilTest{
 
         for(int i = 0; i < dims; i++)
         {
-            System.out.println( point_list[0][i] + " " + mapped_point[i] );
+//            System.out.println( point_list[0][i] + " " + mapped_point[i] );
             assertTrue( mapped_point[i] > end_low &&  mapped_point[i] < end_high ); 
         }
     }
@@ -74,6 +74,18 @@ public class UtilTest{
     @Test
     public void testMapUnitSquare()
     {
-        double[][] mapped_list
+
+        double[][] range = { {-10, 10}, {0, 10} }; 
+        double[][] rectangle_list = { {-8,8}, {-4,4}, {6,2}, {8,6}, {4,8} };
+        double[][] mapped_list = map(rectangle_list, range);
+
+        for(int i = 0; i < rectangle_list.length; i++)
+        {
+            for(int j = 0; j < 2; j++)
+            {
+                System.out.println( rectangle_list[i][j] + " " + mapped_list[i][j] );
+                assertTrue( mapped_list[i][j] > 0 &&  mapped_list[i][j] < 1 ); 
+            }
+        }
     }
 }

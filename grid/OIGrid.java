@@ -17,7 +17,7 @@ class OIGrid
     private double[][] point_list;
     private double[] range[];
 
-    public OIGrid(double[][] points, double delta, double[] range_x, double[] range_y)
+    public OIGrid(double[][] points, double[][] range)
     {
         grid = new LinkedList[(int)(1/delta)][(int)(1/delta)];
         overhaul(points);

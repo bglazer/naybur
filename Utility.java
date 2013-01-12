@@ -127,14 +127,15 @@ public class Utility
       *
       * @param list List of points to search over.
       * @param point Point to search for. 
+      * @return the index of the nearest point.
       */
 
-    public static ArrayList<Double> linearSearch(ArrayList<ArrayList<Double>> list, ArrayList<Double> point)
+    public static int linearSearch(ArrayList<ArrayList<Double>> list, ArrayList<Double> point)
     { 
         double best_dist;
         double dist;
 
-        ArrayList<Double> best_point = list.get(0);
+        int best_point = 0; 
 
         dist = Utility.sqDist(list.get(0), point);
         best_dist = dist;
@@ -146,7 +147,7 @@ public class Utility
             if(dist < best_dist)
             {
                 best_dist = dist;
-                best_point = list.get(i);
+                best_point = i;
             }
         }
 
@@ -159,14 +160,15 @@ public class Utility
       *
       * @param list List of points to search over.
       * @param point Point to search for. 
+      * @return the index of the nearest point.
       */
 
-    public static double[] linearSearch(double[][] list, double[] point)
+    public static int linearSearch(double[][] list, double[] point)
     { 
         double best_dist;
         double dist;
 
-        double[] best_point = list[0];
+        int best_point = 0;
 
         dist = Utility.sqDist(list[0], point);
         best_dist = dist;
@@ -178,7 +180,7 @@ public class Utility
             if(dist < best_dist)
             {
                 best_dist = dist;
-                best_point = list[i];
+                best_point = i;
             }
         }
 

@@ -41,7 +41,7 @@ public class Utility
 
     /**
       * Maps a list of points from one range to another. For example, given a list of points: { {5, 5} {4, 2} {9, 6} } a start_range {0, 10} and end_range {0,1} 
-      * the output would be { {.5,.5} {.4,.2} {.9,.6} }
+      * the output would be { {.5,.5} {.4,.2} {.9,.6} }. This function can handle points of any dimensionality.
       *
       * @param point_list The list of points to be mapped
       * @param start_range The range that the points lie within. All coordinates of the point must lie within this range. 
@@ -52,16 +52,17 @@ public class Utility
     {
         double start_diff = Math.abs(start_range[0] - start_range[1]);
         double end_diff = Math.abs(end_range[0] - end_range[1]);
+        double[][] mapped_list = new double[point_list.length][point_list[0].length];
 
         for(int i = 0; i < point_list.length; i++)
         {
             for(int j = 0; j < dims; j++)
             {
-                point_list[i][j] = ((point_list[i][j] - start_range[0])/start_diff + end_range[0]) * end_diff; 
+                mapped_list[i][j] = ((point_list[i][j] - start_range[0])/start_diff * end_diff) + end_range[0]; 
             }
         }
 
-        return point_list;
+        return mapped_list;
     }
     
 
@@ -77,13 +78,14 @@ public class Utility
     {
         double start_diff = Math.abs(start_range[0] - start_range[1]);
         double end_diff = Math.abs(end_range[0] - end_range[1]);
+        double[] mapped_point = new double[point.length];
 
         for(int j = 0; j < dims; j++)
         {
-            point[j] = ((point[j] - start_range[0])/start_diff + end_range[0]) * end_diff; 
+            mapped_point[j] = ((point[j] - start_range[0])/start_diff * end_diff) + end_range[0]; 
         }
 
-        return point;
+        return mapped_point;
     }
 
 
@@ -92,14 +94,15 @@ public class Utility
       *
       * @param point_list A set of points to be mapped
       * @param range The x and y bounds of the rectangle that contains the points in point_list. For a rectangle with its lower left hand corner at (1,2) and width 7
-      * and height 10 the range would be { {1,8} {2,12} }
+      * and height 10 the range would be { {1,8} {2,12} }. This should always be a 2 x 2 array.
       */
     public static double[][] map(double[][] point_list, double range[][])
     {
         double largest_diff = 0;
         int largest_range = 0;
+        double[][] mapped_list = new double[point_list.length][point_list[0].length];
 
-        for(int i = 0; i < start_range.length; i++)
+        for(int i = 0; i < range.length; i++)
         {
             double diff = Math.abs(start_range[i][0] - start_range[i][1]);
 
@@ -112,8 +115,10 @@ public class Utility
             for(int j = 0; j < 2; j++)
             {
                 point_list[i][j] = (point_list[i][j] - start_range[j][0])/start_diff;
+                mapped_list[i][j] = ((point_list[i][j] - start_range[0])/start_diff * end_diff) + end_range[0]; 
             }
         }
 
+        return mapped_list;
     }
 }

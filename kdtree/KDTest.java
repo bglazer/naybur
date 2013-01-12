@@ -66,22 +66,22 @@ public class KDTest{
       * match a linear search.
       *  
       * @param point_list A list of points used to construct kdtree. 
-      * @param test_points List of search points to test. 
+      * @param search_points List of search points to search. 
       */
-    public void compareResults(ArrayList<ArrayList<Double>> point_list, ArrayList<ArrayList<Double>> test_points)
+    public void compareResults(ArrayList<ArrayList<Double>> point_list, ArrayList<ArrayList<Double>> search_points)
     {
         System.out.println("compareResults");
         
-        for(int i = 0; i < test_points.size(); i++)
+        for(int i = 0; i < search_points.size(); i++)
         {
-            ArrayList<Double> linear_result = linearSearch(point_list, test_points.get(i));
+            ArrayList<Double> linear_result = point_list.get(linearSearch(point_list, search_points.get(i)));
 
-            ArrayList<Double> kd_result = kd.findNearest(test_points.get(i)).getPoint();
+            ArrayList<Double> kd_result = kd.findNearest(search_points.get(i)).getPoint();
  
-//            System.out.println(i + ": " + test_points.get(i));
+//            System.out.println(i + ": " + search_points.get(i));
 
-            double linear_dist = sqDist(linear_result, test_points.get(i));
-            double kd_dist  = sqDist(kd_result, test_points.get(i));
+            double linear_dist = sqDist(linear_result, search_points.get(i));
+            double kd_dist  = sqDist(kd_result, search_points.get(i));
 
             assertEquals(linear_dist, kd_dist, .00001);
         }
@@ -185,7 +185,7 @@ public class KDTest{
         sp.add(6.0);
         
         ArrayList<Double> kd_result = kd.findNearest(sp).getPoint();
-        ArrayList<Double> linear_result = linearSearch(custom_point_list, sp);
+        ArrayList<Double> linear_result = custom_point_list.get(linearSearch(custom_point_list, sp));
 
 /*        System.out.println();
         System.out.println(kd_result);

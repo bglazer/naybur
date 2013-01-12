@@ -88,6 +88,34 @@ public class Utility
         return mapped_point;
     }
 
+    /**
+      * Maps a single 2d point inside a rectangle of any size to the unit square.
+      *
+      * @param point The point to be mapped
+      * @param range The x and y bounds of the rectangle that contains the points in point_list. For a rectangle with its lower left hand corner at (1,2) and width 7
+      * and height 10 the range would be { {1,8} {2,12} }. This should always be a 2 x 2 array.
+      */
+    public static double[] map(double[] point, double range[][])
+    {
+        double largest_diff = 0;
+        int largest_range = 0;
+        double[] mapped_point = new double[point.length];
+
+        for(int i = 0; i < range.length; i++)
+        {
+            double diff = Math.abs(range[i][0] - range[i][1]);
+
+            if(diff > largest_diff) 
+                largest_diff = diff;
+        }
+
+        for(int j = 0; j < 2; j++)
+        {
+            mapped_point[j] = ((point[j] - range[j][0])/largest_diff); 
+        }
+
+        return mapped_point;
+    }
 
     /**
       * Maps a set of 2d points inside a rectangle of any size to the unit square.

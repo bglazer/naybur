@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 class OIGrid
 {
-    private LinkedList[][] grid; 
+    private LinkedList<Integer>[][] grid; //grid is an array of linked lists. Each linked list hold indexes of points in point_list. 
 
     private double delta;
 
@@ -21,7 +21,7 @@ class OIGrid
     {
         delta = 1/Math.sqrt(point.length);
 
-        grid = new LinkedList[(int)(1/delta)][(int)(1/delta)];
+        grid = new LinkedList<Integer>[(int)(1/delta)][(int)(1/delta)];
 
         this.range = range;
         this.point_list = Utility.map(points, range);
@@ -39,9 +39,9 @@ class OIGrid
             LinkedList cell = grid[cell_index_x][cell_index_y];
             
             if(cell == null)
-                cell  = new LinkedList();
+                cell  = new LinkedList<Integer>();
 
-            cell.add(point_list[i]);
+            cell.add(i);
         }
     }
 
@@ -53,7 +53,7 @@ class OIGrid
 
         Rect rect = new Rect(0, searchp_mapped);
 
-        ArrayList points = rect.findPoints(3); 
+        ArrayList<Integer> point_indexes = rect.findPoints(3); 
         
         double[] dist = new double[points.size()];
 
@@ -78,32 +78,35 @@ class OIGrid
             this.cent = cent;
         }
 
-        public ArrayList<Double> findPoints(int k)
+        public ArrayList<Integer> findPoints(int k)
         {
             points_found = 0;
 
-            LinkedList<Double> points = new LinkedList<Double>();
+            ArrayList<Integer> point_indexes = new ArrayList<Integer>();
+
             int width = grid[0].length;
             int height = grid.length;
 
             while(points_found < k)
             {
                 int start_x = cent[0] - len < 0 ? 0 : cent[0] - len;
-                int end_x = cent[0] + len > width ? 0 : cent[0] + len;
+                int end_x = cent[0] + len > width ? width : cent[0] + len;
 
                 int start_y = cent[1] - len < 0 ? 0 : cent[1] - len;
-                int end_y = cent[1] + len > height ? 0 : cent[1] + len;
+                int end_y = cent[1] + len > height ? height : cent[1] + len;
 
                 for(int i = start_x; i < end_x; i++)
                 {
                     for(int j = start_y; j < end_y; j++)
                     {
-                        points.addAll(grid[i][j]);
+                        point_indexes.addAll(grid[i][j]);
                     }
                 }
 
                 len++;
             }
+
+            return point_indexes;
         }
     }
 

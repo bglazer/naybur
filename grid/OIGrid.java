@@ -21,7 +21,18 @@ class OIGrid
     {
         delta = 1/Math.sqrt(points.length);
 
-        grid = new LinkedList[(int)Math.ceil(1/delta)][(int)Math.ceil(1/delta)];
+        int num_grids = (int)Math.ceil(1/delta);
+
+        grid = new LinkedList[num_grids][num_grids];
+
+        
+        for(int i = 0; i < num_grids; i++)
+        {
+            for(int j = 0; j < num_grids; j++)
+            {
+                grid[i][j] = new LinkedList();    
+            }
+        }
 
         this.range = range;
         this.point_list = map(points, range);
@@ -39,12 +50,12 @@ class OIGrid
 //            System.out.println(cell_index_x + " " + cell_index_y);
 //            System.out.println(delta);
 
-            LinkedList cell = grid[cell_index_x][cell_index_y];
-            
-            if(cell == null)
-                cell  = new LinkedList();
+            if(grid[cell_index_x][cell_index_y] == null)
+            {
+                grid[cell_index_x][cell_index_y] = new LinkedList();
+            }
 
-            cell.add(i);
+            grid[cell_index_x][cell_index_y].add(i); 
         }
     }
 
@@ -100,14 +111,12 @@ class OIGrid
 
         public ArrayList<Integer> findPoints(int k)
         {
-            int points_found = 0;
-
             ArrayList<Integer> point_indexes = new ArrayList<Integer>();
 
             int width = grid[0].length;
             int height = grid.length;
 
-            while(points_found < k)
+            while(point_indexes.size() < k)
             {
                 int start_x = cent[0] - len < 0 ? 0 : cent[0] - len;
                 int end_x = cent[0] + len > width ? width : cent[0] + len;
@@ -119,6 +128,8 @@ class OIGrid
                 {
                     for(int j = start_y; j < end_y; j++)
                     {
+                        System.out.println(i + " " + j);
+                        System.out.println(grid[i][j]);
                         point_indexes.addAll(grid[i][j]);
                     }
                 }

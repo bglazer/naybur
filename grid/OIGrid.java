@@ -21,7 +21,7 @@ class OIGrid
     {
         delta = 1/Math.sqrt(points.length);
 
-        grid = new LinkedList[(int)(1/delta)][(int)(1/delta)];
+        grid = new LinkedList[(int)Math.ceil(1/delta)][(int)Math.ceil(1/delta)];
 
         this.range = range;
         this.point_list = map(points, range);
@@ -36,6 +36,9 @@ class OIGrid
             int cell_index_x = (int)Math.floor(point_list[i][0]/delta);
             int cell_index_y = (int)Math.floor(point_list[i][1]/delta);
             
+//            System.out.println(cell_index_x + " " + cell_index_y);
+//            System.out.println(delta);
+
             LinkedList cell = grid[cell_index_x][cell_index_y];
             
             if(cell == null)
@@ -55,22 +58,32 @@ class OIGrid
 
         ArrayList<Integer> point_indexes = rect.findPoints(1); 
         
-        Collections.sort(point_indexes, new MyComparator());
+        Collections.sort(point_indexes, new MyComparator(searchp_mapped));
 
+        return point_indexes;
     }
 
     private class MyComparator implements Comparator
     {
+        double[] search_point;
+
+        public MyComparator(double[] search_point)
+        {
+            this.search_point = search_point;
+        }
+
         @Override
         public int compare(Object a, Object b)
         {
-            double dist_a = sqDist(point_list[(int)a], searchp_mapped);
-            double dist_b = sqDist(point_list[(int)b], searchp_mapped);
+            double dist_a = sqDist(point_list[(int)a], search_point);
+            double dist_b = sqDist(point_list[(int)b], search_point);
 
             if(dist_a > dist_b)
                 return 1;
             if(dist_a < dist_b)
                 return -1;
+
+            return 0;
         }
     }
 

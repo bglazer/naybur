@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 class OIGrid
 {
-    private LinkedList<Integer>[][] grid; //grid is an array of linked lists. Each linked list hold indexes of points in point_list. 
+    private LinkedList[][] grid; //grid is an array of linked lists. Each linked list hold indexes of points in point_list. 
 
     private double delta;
 
@@ -19,9 +19,9 @@ class OIGrid
 
     public OIGrid(double[][] points, double[][] range)
     {
-        delta = 1/Math.sqrt(point.length);
+        delta = 1/Math.sqrt(points.length);
 
-        grid = new LinkedList<Integer>[(int)(1/delta)][(int)(1/delta)];
+        grid = new LinkedList[(int)(1/delta)][(int)(1/delta)];
 
         this.range = range;
         this.point_list = Utility.map(points, range);
@@ -39,7 +39,7 @@ class OIGrid
             LinkedList cell = grid[cell_index_x][cell_index_y];
             
             if(cell == null)
-                cell  = new LinkedList<Integer>();
+                cell  = new LinkedList();
 
             cell.add(i);
         }
@@ -55,11 +55,12 @@ class OIGrid
 
         ArrayList<Integer> point_indexes = rect.findPoints(3); 
         
-        double[] dist = new double[points.size()];
+        double[] dist = new double[point_indexes.size()];
 
-        for(int i = 0; i < points.size(); i++)
+        for(int i = 0; i < point_indexes.size(); i++)
         {
-            dist[i] = Utility.sqDistArray(search_point, (double[])points.get(i));
+            int index = point_indexes.get(i);
+            dist[i] = Utility.sqDistArray(search_point, point_list.get(index));
         }
 
         double[][] results = new double[k][2];

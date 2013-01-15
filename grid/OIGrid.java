@@ -24,7 +24,7 @@ class OIGrid
         grid = new LinkedList[(int)(1/delta)][(int)(1/delta)];
 
         this.range = range;
-        this.point_list = Utility.map(points, range);
+        this.point_list = map(points, range);
 
         overhaul(point_list);
     }
@@ -45,27 +45,33 @@ class OIGrid
         }
     }
 
-    public double[][] findNearest(double[] search_point, int k)
+    public ArrayList<Integer> findNearest(double[] search_point, int k)
     {
         double[] searchp_mapped = map(search_point, range); 
 
         int[] search_cell = { (int)Math.floor(searchp_mapped[0]/delta), (int)Math.floor(searchp_mapped[1]/delta) } ;
 
-        Rect rect = new Rect(0, searchp_mapped);
+        Rect rect = new Rect(0, search_cell);
 
-        ArrayList<Integer> point_indexes = rect.findPoints(3); 
+        ArrayList<Integer> point_indexes = rect.findPoints(1); 
         
-        double[] dist = new double[point_indexes.size()];
+        Collections.sort(point_indexes, new MyComparator());
 
-        for(int i = 0; i < point_indexes.size(); i++)
+    }
+
+    private class MyComparator implements Comparator
+    {
+        @Override
+        public int compare(Object a, Object b)
         {
-            int index = point_indexes.get(i);
-            dist[i] = Utility.sqDistArray(search_point, point_list.get(index));
+            double dist_a = sqDist(point_list[(int)a], searchp_mapped);
+            double dist_b = sqDist(point_list[(int)b], searchp_mapped);
+
+            if(dist_a > dist_b)
+                return 1;
+            if(dist_a < dist_b)
+                return -1;
         }
-
-        double[][] results = new double[k][2];
-
-        return results;
     }
 
     private class Rect
@@ -81,7 +87,7 @@ class OIGrid
 
         public ArrayList<Integer> findPoints(int k)
         {
-            points_found = 0;
+            int points_found = 0;
 
             ArrayList<Integer> point_indexes = new ArrayList<Integer>();
 

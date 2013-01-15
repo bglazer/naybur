@@ -58,12 +58,12 @@ public class OITest{
             double[] linear_result = linearSearch(point_list, test_point_list[i]);
 
             int num_results = 1;
-            int grid_result = grid.findNearest(test_point_list[i], num_results);
+            ArrayList<Integer> grid_result = grid.findNearest(test_point_list[i], num_results);
  
 //            System.out.println(i + ": " + test_point_list[i]);
 
             double linear_dist = sqDist(linear_result, test_point_list[i]);
-            double grid_dist  = sqDist(point_list[grid_result], test_point_list[i]);
+            double grid_dist  = sqDist(point_list[grid_result.get(1)], test_point_list[i]);
 
             assertEquals(linear_dist, grid_dist, .00001);
         }

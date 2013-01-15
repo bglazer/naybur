@@ -141,7 +141,7 @@ public class OITest{
 
         grid = new OIGrid(point_list, pos_range);
     }
-/*
+
     @Test
     public void testSearchCustom()
     {
@@ -149,29 +149,27 @@ public class OITest{
 
         double[][] point_list = { {1.0, 6.0}, {3.0, 5.0}, {4.0, 8.0}, {4.0, 0.0}, {4.0, 7.0}, {5.0, 9.0}, {5.0, 8.0}, {6.0, 0.0}, {7.0, 1.0}, {9.0, 6.0} };
 
-        point_list = map(point_list, pos_range, unit_range, 2); 
-        
-        OIGrid grid = new OIGrid(point_list, 1);
+        OIGrid grid = new OIGrid(point_list, pos_range);
 
         double[] sp = new double[2];
 
         sp[0] = 5.0;
         sp[1] = 5.0;
 
-        double[] grid_result = grid.findNearest(sp);
+        ArrayList<Integer> grid_result = grid.findNearest(sp, 1);
         double[] linear_result = linearSearch(point_list, sp);
 
-/*        System.out.println();
-        System.out.println(grid_result);
-        System.out.println(linear_result);
-        System.out.println();
+//        System.out.println();
+//        System.out.println(grid_result);
+//        System.out.println(linear_result);
+//        System.out.println();
 
         double linear_dist = sqDist(linear_result, sp);
-        double grid_dist  = sqDist(grid_result, sp);
+        double grid_dist  = sqDist(point_list[grid_result.get(1)], sp);
 
         assertEquals(linear_dist, grid_dist, .00001);
     } 
-
+/*
     @Test
     public void testSearchRandomIntegerPos() 
     {

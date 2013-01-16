@@ -128,8 +128,6 @@ class OIGrid
                 {
                     for(int j = start_y; j < end_y; j++)
                     {
-                        System.out.println(i + " " + j);
-                        System.out.println(grid[i][j]);
                         point_indexes.addAll(grid[i][j]);
                     }
                 }

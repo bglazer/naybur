@@ -63,7 +63,7 @@ public class OITest{
 //            System.out.println(i + ": " + test_point_list[i]);
 
             double linear_dist = sqDist(linear_result, test_point_list[i]);
-            double grid_dist  = sqDist(point_list[grid_result.get(1)], test_point_list[i]);
+            double grid_dist  = sqDist(point_list[grid_result.get(0)], test_point_list[i]);
 
             assertEquals(linear_dist, grid_dist, .00001);
         }
@@ -159,17 +159,12 @@ public class OITest{
         ArrayList<Integer> grid_result = grid.findNearest(sp, 1);
         double[] linear_result = linearSearch(point_list, sp);
 
-//        System.out.println();
-//        System.out.println(grid_result.get(0));
-//        System.out.println(linear_result);
-//        System.out.println();
-
         double linear_dist = sqDist(linear_result, sp);
         double grid_dist  = sqDist(point_list[grid_result.get(0)], sp);
 
         assertEquals(linear_dist, grid_dist, .00001);
     } 
-/*
+
     @Test
     public void testSearchRandomIntegerPos() 
     {
@@ -177,12 +172,7 @@ public class OITest{
         point_list = createTestList(num_points, true, false);
         test_point_list = createTestList(num_points, true, false);
 
-        point_list = map(point_list, pos_range, unit_range, 2); 
-
-        grid = new OIGrid(point_list, delta);
-
-
-//        OIGrid.printTree(grid.getRoot());
+        grid = new OIGrid(point_list, pos_range);
 
 //        printPoints(point_list);
 //        printPoints(test_point_list);
@@ -197,10 +187,7 @@ public class OITest{
         point_list = createTestList(num_points, false, false); 
         test_point_list = createTestList(num_points, false, false);
 
-        point_list = map(point_list, pos_range, unit_range, 2); 
-
-        grid = new OIGrid(point_list, delta);
-
+        grid = new OIGrid(point_list, pos_range);
 
 //        printPoints(point_list);
 //        printPoints(test_point_list);
@@ -215,15 +202,9 @@ public class OITest{
         point_list = createTestList(num_points, true, true);
         test_point_list = createTestList(num_points, true, true);
 
-        point_list = map(point_list, neg_range, unit_range, 2); 
+        grid = new OIGrid(point_list, neg_range);
 
-        printPoints(point_list);
-
-        grid = new OIGrid(point_list, delta);
-
-
-//        OIGrid.printTree(grid.getRoot());
-
+//        printPoints(point_list);
 //        printPoints(test_point_list);
 
         compareResults(point_list, test_point_list);
@@ -236,15 +217,12 @@ public class OITest{
         point_list = createTestList(num_points, false, true); 
         test_point_list = createTestList(num_points, false, true);
 
-        point_list = map(point_list, neg_range, unit_range, 2); 
-
-        grid = new OIGrid(point_list, delta);
-
+        grid = new OIGrid(point_list, neg_range);
 
 //        printPoints(point_list);
 //        printPoints(test_point_list);
 
         compareResults(point_list, test_point_list);
     }
-    */
+    
 }

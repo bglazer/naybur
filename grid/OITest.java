@@ -160,12 +160,12 @@ public class OITest{
         double[] linear_result = linearSearch(point_list, sp);
 
 //        System.out.println();
-//        System.out.println(grid_result);
+//        System.out.println(grid_result.get(0));
 //        System.out.println(linear_result);
 //        System.out.println();
 
         double linear_dist = sqDist(linear_result, sp);
-        double grid_dist  = sqDist(point_list[grid_result.get(1)], sp);
+        double grid_dist  = sqDist(point_list[grid_result.get(0)], sp);
 
         assertEquals(linear_dist, grid_dist, .00001);
     } 

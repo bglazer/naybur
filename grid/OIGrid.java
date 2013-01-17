@@ -132,14 +132,14 @@ class OIGrid
             while(point_indexes.size() < k)
             {
                 int start_x = cent[0] - len < 0 ? 0 : cent[0] - len;
-                int end_x = cent[0] + len > width ? width : cent[0] + len;
+                int end_x = cent[0] + len >= width ? width-1 : cent[0] + len;
 
                 int start_y = cent[1] - len < 0 ? 0 : cent[1] - len;
-                int end_y = cent[1] + len > height ? height : cent[1] + len;
+                int end_y = cent[1] + len >= height ? height-1 : cent[1] + len;
 
-                for(int i = start_x; i < end_x; i++)
+                for(int i = start_x; i <= end_x; i++)
                 {
-                    for(int j = start_y; j < end_y; j++)
+                    for(int j = start_y; j <= end_y; j++)
                     {
                         point_indexes.addAll(grid[i][j]);
                     }

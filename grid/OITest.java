@@ -10,11 +10,9 @@ public class OITest{
     private double[][] point_list, test_point_list; 
     private OIGrid grid;
     private int scale_x = 10, scale_y = 10; 
-    private int num_points = 10;
-    private double[] unit_range = {0,1};
+    private int num_points = 1000;
     private double[][] pos_range = { {0, scale_x}, {0, scale_y} };
     private double[][] neg_range = { {-scale_x, scale_x}, {-scale_y, scale_y} };
-    private double delta = .1;
     
     @Before
     public void setUp()
@@ -60,11 +58,16 @@ public class OITest{
             int num_results = 1;
             ArrayList<Integer> grid_result = grid.findNearest(test_point_list[i], num_results);
  
-//            System.out.println(i + ": " + test_point_list[i]);
+            System.out.println(i + ": " + test_point_list[i][0] + ", " + test_point_list[i][1]);
 
             double linear_dist = sqDist(linear_result, test_point_list[i]);
             double grid_dist  = sqDist(point_list[grid_result.get(0)], test_point_list[i]);
 
+            if(linear_dist - grid_dist > .00001)
+            {
+            	System.out.println(test_point_list[i]);
+            	printPoints(point_list);
+            }
             assertEquals(linear_dist, grid_dist, .00001);
         }
 
@@ -145,16 +148,16 @@ public class OITest{
     @Test
     public void testSearchCustom()
     {
-        int dims = 2;
+        double[][] point_list = { {-6.0, -4.0}, {-8.0, -10.0}, {2.0, -2.0}, {-2.0, -10.0}, {-10.0, 8.0}, {-10.0, 6.0}, {-2.0, 0.0}, {0.0, 2.0}, {8.0, -10.0}, {-8.0, -10.0} };
 
-        double[][] point_list = { {1.0, 6.0}, {3.0, 5.0}, {4.0, 8.0}, {4.0, 0.0}, {4.0, 7.0}, {5.0, 9.0}, {5.0, 8.0}, {6.0, 0.0}, {7.0, 1.0}, {9.0, 6.0} };
-
-        OIGrid grid = new OIGrid(point_list, pos_range);
+        OIGrid grid = new OIGrid(point_list, neg_range);
 
         double[] sp = new double[2];
 
-        sp[0] = 5.0;
-        sp[1] = 5.0;
+        sp[0] = -4.0;
+        sp[1] = 6.0;
+
+        printPoints(point_list);
 
         ArrayList<Integer> grid_result = grid.findNearest(sp, 1);
         double[] linear_result = linearSearch(point_list, sp);
@@ -174,7 +177,7 @@ public class OITest{
 
         grid = new OIGrid(point_list, pos_range);
 
-//        printPoints(point_list);
+        printPoints(point_list);
 //        printPoints(test_point_list);
 
         compareResults(point_list, test_point_list);
@@ -189,7 +192,7 @@ public class OITest{
 
         grid = new OIGrid(point_list, pos_range);
 
-//        printPoints(point_list);
+        printPoints(point_list);
 //        printPoints(test_point_list);
 
         compareResults(point_list, test_point_list);
@@ -204,7 +207,7 @@ public class OITest{
 
         grid = new OIGrid(point_list, neg_range);
 
-//        printPoints(point_list);
+        printPoints(point_list);
 //        printPoints(test_point_list);
 
         compareResults(point_list, test_point_list);
@@ -219,7 +222,7 @@ public class OITest{
 
         grid = new OIGrid(point_list, neg_range);
 
-//        printPoints(point_list);
+        printPoints(point_list);
 //        printPoints(test_point_list);
 
         compareResults(point_list, test_point_list);

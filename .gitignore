@@ -1,4 +1,7 @@
-mv_eclipse
+cp_from_eclipse
+cp_to_eclipse
 *.class
 *.swp
 *.pdf
+*.project
+

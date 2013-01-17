@@ -71,6 +71,19 @@ class OIGrid
         
         Collections.sort(point_indexes, new MyComparator(searchp_mapped));
 
+        int farthest_point_index = point_indexes.get(point_indexes.size()-1);
+
+        double farthest_point_dist = sqDist(searchp_mapped, point_list[farthest_point_index]); 
+        farthest_point_dist = Math.sqrt(farthest_point_dist);
+
+        int new_len = (int)Math.ceil(farthest_point_dist/delta);
+
+        rect = new Rect(new_len, search_cell);
+
+        point_indexes = rect.findPoints(1); 
+        
+        Collections.sort(point_indexes, new MyComparator(searchp_mapped));
+
         return point_indexes;
     }
 

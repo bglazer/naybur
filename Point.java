@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Point
 {
-    private ArrayList<Double> coordinates;
-    private int dims;
+    public ArrayList<Double> coordinates;
+    public int dims;
 
     public Point(ArrayList<Double> coordinates)
     {
@@ -13,13 +13,13 @@ public class Point
         dims = coordinates.size();
     }
 
-    public ArrayList<Double> getCoordinates()
+    public Double x()
     {
-        return coordinates;
+        return coordinates.get(0);
     }
 
-    public int getDims()
+    public Double y()
     {
-        return dims;
+        return coordinates.get(1);
     }
 }

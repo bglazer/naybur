@@ -26,9 +26,19 @@ public class PointTest
     @Test
     public void testGetDims() 
     {
-        int dims = test_point.getDims();
+        int dims = test_point.dims;
 
         assertEquals(dims, test_dims);
+    }
+
+    @Test
+    public void testXY()
+    {
+        double x = test_point.x();
+        double y = test_point.y();
+
+        assertEquals(x, test_coordinates.get(0), .00001);
+        assertEquals(y, test_coordinates.get(1), .00001);
     }
 
 }

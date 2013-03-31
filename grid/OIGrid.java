@@ -1,6 +1,7 @@
 package naybur.grid;
 
 import static naybur.Utility.*;
+import naybur.Point;
 import java.util.Comparator;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -8,72 +9,73 @@ import java.util.ArrayList;
 
 class OIGrid
 {
-    private LinkedList[][] grid; //grid is an array of linked lists. Each linked list hold indexes of points in point_list. 
+    //grid is an array of linked lists. Each linked list hold indexes of points in point_list. 
+    private LinkedList<Integer>[][] grid; 
 
     private double delta;
 
     private int len;
 
-    private double[][] point_list;
+    private ArrayList<Point> point_list;
+
     private double[][] range;
 
-    public OIGrid(double[][] points, double[][] range)
+    public OIGrid(ArrayList<Point> points, double[][] range)
     {
-        delta = 1/Math.sqrt(points.length);
+        delta = 1/Math.sqrt(points.size());
 
         int num_grids = (int)Math.ceil(1/delta);
 
         grid = new LinkedList[num_grids][num_grids];
-
         
         for(int i = 0; i < num_grids; i++)
         {
             for(int j = 0; j < num_grids; j++)
             {
-                grid[i][j] = new LinkedList();    
+                grid[i][j] = new LinkedList<Integer>();    
             }
         }
 
+        this.point_list = points;
         this.range = range;
-        this.point_list = map(points, range);
 
-        overhaul(point_list);
+        overhaul();
     }
 
-    public void overhaul(double[][] points)
+    public void overhaul()
     {
-        for(int i = 0; i < point_list.length; i++)
+        for(int i = 0; i < point_list.size(); i++)
         {
-            int cell_index_x = (int)Math.floor(point_list[i][0]/delta);
-            int cell_index_y = (int)Math.floor(point_list[i][1]/delta);
+            Point mapped_point = map( point_list.get(i), range ); 
+
+            int cell_index_x = (int)Math.floor( mapped_point.x() / delta);
+            int cell_index_y = (int)Math.floor( mapped_point.y() / delta);
             
 //            System.out.println(cell_index_x + " " + cell_index_y);
 //            System.out.println(delta);
 
             if(grid[cell_index_x][cell_index_y] == null)
             {
-                grid[cell_index_x][cell_index_y] = new LinkedList();
+                grid[cell_index_x][cell_index_y] = new LinkedList<Integer>();
             }
 
             grid[cell_index_x][cell_index_y].add(i); 
         }
     }
 
-    public ArrayList<Integer> findNearest(double[] search_point, int k)
+    public ArrayList<Integer> findNearest(Point search_point, int k)
     {
-        double[] searchp_mapped = map(search_point, range); 
-
-        int[] search_cell = { (int)Math.floor(searchp_mapped[0]/delta), (int)Math.floor(searchp_mapped[1]/delta) } ;
+        int[] search_cell = { (int)Math.floor(search_point.x()/delta), (int)Math.floor(search_point.y()/delta) } ;
 
         Rect rect = new Rect(0, search_cell);
 
         ArrayList<Integer> point_indexes = rect.findPoints(1); 
         
-        Collections.sort(point_indexes, new MyComparator(searchp_mapped));
+        Collections.sort(point_indexes, new MyComparator(search_point));
 
         int farthest_point_index = point_indexes.get(point_indexes.size()-1);
 
-        double farthest_point_dist = sqDist(searchp_mapped, point_list[farthest_point_index]); 
+        double farthest_point_dist = sqDist(search_point, point_list[farthest_point_index]); 
         farthest_point_dist = Math.sqrt(farthest_point_dist);
 
         int new_len = (int)Math.ceil(farthest_point_dist/delta);
@@ -82,7 +84,7 @@ class OIGrid
 
         point_indexes = rect.findPoints(1); 
         
-        Collections.sort(point_indexes, new MyComparator(searchp_mapped));
+        Collections.sort(point_indexes, new MyComparator(search_point));
 
         return point_indexes;
     }
@@ -97,10 +99,10 @@ class OIGrid
         }
 
         @Override
-        public int compare(Object a, Object b)
+        public int compare(int a, int b)
         {
-            double dist_a = sqDist(point_list[(int)a], search_point);
-            double dist_b = sqDist(point_list[(int)b], search_point);
+            double dist_a = sqDist(point_list[a], search_point);
+            double dist_b = sqDist(point_list[b], search_point);
 
             if(dist_a > dist_b)
                 return 1;

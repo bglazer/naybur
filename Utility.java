@@ -6,6 +6,23 @@ import java.util.ArrayList;
 public class Utility 
 {
     /**
+      * Calculates the squared distance from point a to point b, using Point class
+      *
+      * @param
+      */
+    public static double sqDist(Point a, Point b)
+    {
+        double dist = 0;
+
+        for(int i = 0; i<2; i++)
+        {
+            dist += Math.pow(a.coordinates.get(i) - b.coordinates.get(i), 2);
+        }
+
+        return dist;
+    }
+
+    /**
       * Calculates the squared distance from point a to point b
       *
       * @param
@@ -214,4 +231,36 @@ public class Utility
         return best_point;
     }
 
+    /**
+      * Find the closest point in a list to a given search point, using Point class. Uses a simple linear search that iterates
+      * over every point and calculates the distance between the test and search point.
+      *
+      * @param list List of points to search over.
+      * @param point Point to search for. 
+      * @return the index of the nearest point.
+      */
+
+    public static int linearSearch(ArrayList<Point> list, Point point)
+    { 
+        double best_dist;
+        double dist;
+
+        int best_point = 0; 
+
+        dist = Utility.sqDist(list.get(0), point);
+        best_dist = dist;
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            dist = Utility.sqDist(list.get(i), point);
+
+            if(dist < best_dist)
+            {
+                best_dist = dist;
+                best_point = i;
+            }
+        }
+
+        return best_point;
+    }
 }

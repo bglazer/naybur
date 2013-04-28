@@ -69,19 +69,21 @@ class OIGrid
 
         Rect rect = new Rect(0, search_cell);
 
+        //Need to change this to use k instead of just 1.
         ArrayList<Integer> point_indexes = rect.findPoints(1); 
         
         Collections.sort(point_indexes, new MyComparator(search_point));
 
         int farthest_point_index = point_indexes.get(point_indexes.size()-1);
 
-        double farthest_point_dist = sqDist(search_point, point_list[farthest_point_index]); 
+        double farthest_point_dist = sqDist(search_point, point_list.get(farthest_point_index)); 
         farthest_point_dist = Math.sqrt(farthest_point_dist);
 
         int new_len = (int)Math.ceil(farthest_point_dist/delta);
 
         rect = new Rect(new_len, search_cell);
 
+        //Need to change this to use k instead of just 1.
         point_indexes = rect.findPoints(1); 
         
         Collections.sort(point_indexes, new MyComparator(search_point));
@@ -89,20 +91,20 @@ class OIGrid
         return point_indexes;
     }
 
-    private class MyComparator implements Comparator
+    private class MyComparator implements Comparator<Integer>
     {
-        double[] search_point;
+        Point search_point;
 
-        public MyComparator(double[] search_point)
+        public MyComparator(Point search_point)
         {
             this.search_point = search_point;
         }
 
         @Override
-        public int compare(int a, int b)
+        public int compare(Integer a, Integer b)
         {
-            double dist_a = sqDist(point_list[a], search_point);
-            double dist_b = sqDist(point_list[b], search_point);
+            double dist_a = sqDist(point_list.get(a), search_point);
+            double dist_b = sqDist(point_list.get(b), search_point);
 
             if(dist_a > dist_b)
                 return 1;

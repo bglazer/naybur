@@ -1,6 +1,10 @@
 package naybur.grid;
 
 import org.junit.*;
+import org.junit.internal.runners.statements.Fail;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.notification.RunListener;
+
 import static org.junit.Assert.*;
 import java.util.*;
 import static naybur.Utility.*;
@@ -91,14 +95,14 @@ public class OITest{
     {
         double[][] point_array = { {-6.0, -4.0}, {-8.0, -10.0}, {2.0, -2.0}, {-2.0, -10.0}, {-10.0, 8.0}, {-10.0, 6.0}, {-2.0, 0.0}, {0.0, 2.0}, {8.0, -10.0}, {-8.0, -10.0} };
 
-        for(int i = 0; i < point_list.size(); i++)
+        point_list = new ArrayList<Point>();
+        
+        for(int i = 0; i < point_array.length; i++)
         {
             double x = point_array[i][0];
             double y = point_array[i][1];
 
-            Point p = new Point(x,y);
-
-            point_list.add(p);     
+            point_list.add(new Point(x,y));
         }
 
         OIGrid grid = new OIGrid(point_list, neg_range);
@@ -174,5 +178,4 @@ public class OITest{
 
         compareResults(point_list, test_point_list);
     }
-    
 }

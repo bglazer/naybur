@@ -1,12 +1,11 @@
 package naybur;
 
-import naybur.Point;
 import java.util.ArrayList;
 
 public class Utility 
 {
     /**
-      * Calculates the squared distance from point a to point b, using Point class
+      * Calculates the squared distance from point a to point b, using Point class.
       *
       * @param
       */

@@ -44,15 +44,16 @@ class OIGrid
 
     public void overhaul()
     {
+//        System.out.println(delta);
         for(int i = 0; i < point_list.size(); i++)
         {
-            Point mapped_point = map( point_list.get(i), range ); 
+            Point mapped_point = map(point_list.get(i), range); 
 
-            int cell_index_x = (int)Math.floor( mapped_point.x() / delta);
-            int cell_index_y = (int)Math.floor( mapped_point.y() / delta);
+            int cell_index_x = (int)Math.floor(mapped_point.x() / delta);
+            int cell_index_y = (int)Math.floor(mapped_point.y() / delta);
             
+//            System.out.println(mapped_point);
 //            System.out.println(cell_index_x + " " + cell_index_y);
-//            System.out.println(delta);
 
             if(grid[cell_index_x][cell_index_y] == null)
             {
@@ -65,7 +66,8 @@ class OIGrid
 
     public ArrayList<Integer> findNearest(Point search_point, int k)
     {
-        int[] search_cell = { (int)Math.floor(search_point.x()/delta), (int)Math.floor(search_point.y()/delta) } ;
+        Point search_point_mapped = map(search_point, range);
+        int[] search_cell = { (int)Math.floor(search_point_mapped.x()/delta), (int)Math.floor(search_point_mapped.y()/delta) } ;
 
         Rect rect = new Rect(0, search_cell);
 

@@ -1,6 +1,10 @@
 package naybur.grid;
 
 import org.junit.*;
+import org.junit.internal.runners.statements.Fail;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.notification.RunListener;
+
 import static org.junit.Assert.*;
 import java.util.*;
 import static naybur.Utility.*;

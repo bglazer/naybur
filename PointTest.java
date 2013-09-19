@@ -3,7 +3,6 @@ package naybur;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
-import naybur.Point;
  
 public class PointTest
 {

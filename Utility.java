@@ -14,10 +14,8 @@ public class Utility
     {
         double dist = 0;
 
-        for(int i = 0; i<2; i++)
-        {
-            dist += Math.pow(a.coordinates.get(i) - b.coordinates.get(i), 2);
-        }
+        dist += Math.pow(a.x - b.x, 2);
+        dist += Math.pow(a.y - b.y, 2);
 
         return dist;
     }
@@ -83,6 +81,23 @@ public class Utility
         return mapped_list;
     }
     
+    /**
+      * Maps a single point from one range to the specified end range. 
+      *
+      * @param point The point to be mapped
+      * @param start_range The initial range that the point lies on. 
+      * @param end_range The final range that the point should be mapped to
+      * @param dims The dimensionality of the point.
+      */
+    public static double map(double value, double[] start_range, double[] end_range, int dims)
+    {
+        double start_diff = Math.abs(start_range[0] - start_range[1]);
+        double end_diff = Math.abs(end_range[0] - end_range[1]);
+
+        double mapped_value = ((value - start_range[0])/start_diff * end_diff) + end_range[0]; 
+
+        return mapped_value;
+    }
 
     /**
       * Maps a single point from one range to the specified end range. 
@@ -113,6 +128,7 @@ public class Utility
       * @param range The x and y bounds of the rectangle that contains the points in point_list. For a rectangle with its lower left hand corner at (1,2) and width 7
       * and height 10 the range would be { {1,8} {2,12} }. This should always be a 2 x 2 array.
       */
+      /*
     public static Point map(Point point, double range[][])
     {
         double largest_diff = 0;
@@ -127,11 +143,11 @@ public class Utility
                 largest_diff = diff;
         }
 
-        mapped_coordinates.add( (point.x() - range[0][0])/largest_diff );
-        mapped_coordinates.add( (point.y() - range[1][0])/largest_diff );
+        mapped_coordinates.add( (point.x - range[0][0])/largest_diff );
+        mapped_coordinates.add( (point.y - range[1][0])/largest_diff );
 
         return new Point(mapped_coordinates);
-    }
+    }*/
 
     /**
       * Maps a set of 2d points inside a rectangle of any size to the unit square.
@@ -262,5 +278,10 @@ public class Utility
         }
 
         return best_point;
+    }
+
+    public static<T> void println(T s)
+    {
+        System.out.println(s);
     }
 }

@@ -98,7 +98,8 @@ public class OITest{
         double[][] point_array =
         {
 {5.0, 2.0}, {1.0, 0.0}, {3.0, 6.0}, {3.0, 9.0}, {9.0, 2.0}, {9.0, 6.0}, {3.0, 4.0}, {6.0, 5.0}, {8.0, 0.0}, {7.0, 3.0}
-};
+        };
+
         ArrayList<Point> point_list = new ArrayList<Point>();
 
         for(int i = 0; i < point_array.length; i++)

@@ -6,25 +6,32 @@ import java.util.Comparator;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.List;
 
-class OIGrid
+public class OIGrid
 {
     //grid is an array of linked lists. Each linked list hold indexes of points in point_list. 
-    private LinkedList<Integer>[][] grid; 
+    public LinkedList<Integer>[][] grid; 
 
-    private double delta;
+    private double delta, diff;
 
-    private int len;
+    private int len, num_grids;
 
-    private ArrayList<Point> point_list;
+    public ArrayList<Point> point_list;
 
     private double[][] range;
 
     public OIGrid(ArrayList<Point> points, double[][] range)
     {
-        delta = 1/Math.sqrt(points.size());
+        double xdiff = Math.abs(range[0][0] - range[0][1]);
+        double ydiff = Math.abs(range[1][0] - range[1][1]);
+        double diff = xdiff > ydiff ? xdiff : ydiff;
+//        println(diff);
 
-        int num_grids = (int)Math.ceil(1/delta);
+        delta = 1/Math.sqrt(points.size()) * diff;
+//        println(delta);
+        num_grids = (int)Math.ceil((1/delta)*diff);
+//        println(num_grids);
 
         grid = new LinkedList[num_grids][num_grids];
         
@@ -44,37 +51,46 @@ class OIGrid
 
     public void overhaul()
     {
-//        System.out.println(delta);
+//        println(delta);
+        for(int i = 0; i < num_grids; i++)
+        {
+            for(int j = 0; j < num_grids; j++)
+            {
+//                println(grid[i][j]);
+                grid[i][j].clear();
+            }
+        }
+
+//        println(" ");
         for(int i = 0; i < point_list.size(); i++)
         {
-            Point mapped_point = map(point_list.get(i), range); 
+//            println(point_list.get(i));
+//            Point mapped_point = map(point_list.get(i), range); 
+            Point point = point_list.get(i);
 
-            int cell_index_x = (int)Math.floor(mapped_point.x() / delta);
-            int cell_index_y = (int)Math.floor(mapped_point.y() / delta);
+            int cell_index_x = (int)Math.floor(point.x / delta);
+            int cell_index_y = (int)Math.floor(point.y / delta);
             
-//            System.out.println(mapped_point);
-//            System.out.println(cell_index_x + " " + cell_index_y);
-
-            if(grid[cell_index_x][cell_index_y] == null)
-            {
-                grid[cell_index_x][cell_index_y] = new LinkedList<Integer>();
-            }
+//            println(i+ ": " +  point.x + " " + point.y);
+//            println(i+ ": "+ cell_index_x + " " + cell_index_y);
 
             grid[cell_index_x][cell_index_y].add(i); 
         }
     }
 
-    public ArrayList<Integer> findNearest(Point search_point, int k)
+    public List<Integer> findNearest(Point search_point, int k)
     {
-        Point search_point_mapped = map(search_point, range);
-        int[] search_cell = { (int)Math.floor(search_point_mapped.x()/delta), (int)Math.floor(search_point_mapped.y()/delta) } ;
+        int[] search_cell = { (int)Math.floor(search_point.x/delta), (int)Math.floor(search_point.y/delta) } ;
+//        println(search_cell[0] + " " + search_cell[1]);
+//        println(search_point);
 
         Rect rect = new Rect(0, search_cell);
 
-        //Need to change this to use k instead of just 1.
-        ArrayList<Integer> point_indexes = rect.findPoints(1); 
+        ArrayList<Integer> point_indexes = rect.findPoints(k); 
         
+//        println(point_indexes);
         Collections.sort(point_indexes, new MyComparator(search_point));
+//        println(point_indexes);
 
         int farthest_point_index = point_indexes.get(point_indexes.size()-1);
 
@@ -82,15 +98,17 @@ class OIGrid
         farthest_point_dist = Math.sqrt(farthest_point_dist);
 
         int new_len = (int)Math.ceil(farthest_point_dist/delta);
+//        println(delta);
+//        println(new_len);
 
         rect = new Rect(new_len, search_cell);
 
-        //Need to change this to use k instead of just 1.
-        point_indexes = rect.findPoints(1); 
+        point_indexes = rect.findPoints(k); 
         
         Collections.sort(point_indexes, new MyComparator(search_point));
 
-        return point_indexes;
+//        println(point_indexes);
+        return point_indexes.subList(0,k);
     }
 
     private class MyComparator implements Comparator<Integer>
@@ -135,18 +153,24 @@ class OIGrid
             int width = grid[0].length;
             int height = grid.length;
 
+//            println("**********************************************");
             while(point_indexes.size() < k)
             {
+                point_indexes.clear();
+//                println(len);
                 int start_x = cent[0] - len < 0 ? 0 : cent[0] - len;
                 int end_x = cent[0] + len >= width ? width-1 : cent[0] + len;
 
                 int start_y = cent[1] - len < 0 ? 0 : cent[1] - len;
                 int end_y = cent[1] + len >= height ? height-1 : cent[1] + len;
 
+//                println(" ");
                 for(int i = start_x; i <= end_x; i++)
                 {
                     for(int j = start_y; j <= end_y; j++)
                     {
+//                        println(i + " " + j);
+//                        println(grid[i][j]);
                         point_indexes.addAll(grid[i][j]);
                     }
                 }
@@ -154,8 +178,8 @@ class OIGrid
                 len++;
             }
 
+//            println(point_indexes);
             return point_indexes;
         }
     }
-
 }

@@ -14,13 +14,9 @@ public class PointTest
     @Before
     public void setup()
     {
-        test_dims = 3;
-        test_coordinates = new ArrayList<Double>();
-        test_coordinates.add(1.0);
-        test_coordinates.add(2.0);
-        test_coordinates.add(3.0);
+        test_dims = 2;
 
-        test_point = new Point(test_coordinates);
+        test_point = new Point(1.0,2.0);
     }
 
     @Test
@@ -34,11 +30,10 @@ public class PointTest
     @Test
     public void testXY()
     {
-        double x = test_point.x();
-        double y = test_point.y();
+        double x = test_point.x;
+        double y = test_point.y;
 
-        assertEquals(x, test_coordinates.get(0), .00001);
-        assertEquals(y, test_coordinates.get(1), .00001);
+        assertEquals(1.0, x,  .00001);
+        assertEquals(2.0, y,  .00001);
     }
-
 }

@@ -10,16 +10,22 @@ import java.util.List;
 
 public class OIGrid
 {
-    //grid is an array of linked lists. Each linked list hold indexes of points in point_list. 
-    public LinkedList<Integer>[][] grid; 
+    //grid is an array of linked lists. The linked lists hold integer indexes of Points in point_list.
+	//made public so that 
+    public LinkedList[][] grid; 
 
+	//range is assumed to be a 2x2 array representing the area that the points under consideration occupy.
+	//e.g. [[0,0][100,200]] is a rectangle with top left corner at 0,0 and bottom right at [100,200]
+    private double[][] range;
+
+	//delta represents the size of a grid square
+	//diff is the absolute value of the longest dimension of the range.
     private double delta, diff;
 
-    private int len, num_grids;
+    private int num_grids;
 
     public ArrayList<Point> point_list;
 
-    private double[][] range;
 
     public OIGrid(ArrayList<Point> points, double[][] range)
     {
@@ -137,8 +143,8 @@ public class OIGrid
 
     private class Rect
     {
-        public int len;
-        public int[] cent;
+        private int len;
+        private int[] cent;
 
         public Rect(int len, int[] cent)
         {

@@ -10,9 +10,9 @@ import java.util.List;
 
 public class OIGrid
 {
-    //grid is an array of linked lists. The linked lists hold integer indexes of Points in point_list.
+    //grid is an array of linked lists. The linked lists hold Points in point_list.
 	//made public so that 
-    public LinkedList[][] grid; 
+    public List<List<List<Point>>> grid; 
 
 	//range is assumed to be a 2x2 array representing the area that the points under consideration occupy.
 	//e.g. [[0,0][100,200]] is a rectangle with top left corner at 0,0 and bottom right at [100,200]
@@ -39,13 +39,16 @@ public class OIGrid
         num_grids = (int)Math.ceil((1/delta)*diff);
 //        println(num_grids);
 
-        grid = new LinkedList[num_grids][num_grids];
+        grid = new ArrayList<List<List<Point>>>(num_grids);
         
         for(int i = 0; i < num_grids; i++)
         {
+			List<List<Point>> row = new ArrayList<List<Point>>(num_grids);
+			grid.add(row);
             for(int j = 0; j < num_grids; j++)
             {
-                grid[i][j] = new LinkedList<Integer>();    
+				List<Point> col = new LinkedList<Point>();
+				row.add(col);
             }
         }
 
@@ -58,33 +61,28 @@ public class OIGrid
     public void overhaul()
     {
 //        println(delta);
-        for(int i = 0; i < num_grids; i++)
+        for(List<List<Point>> row : grid)
         {
-            for(int j = 0; j < num_grids; j++)
+            for(List<Point> col : row)
             {
-//                println(grid[i][j]);
-                grid[i][j].clear();
+                col.clear();
             }
         }
 
 //        println(" ");
-        for(int i = 0; i < point_list.size(); i++)
+        for(Point point : point_list)
         {
-//            println(point_list.get(i));
-//            Point mapped_point = map(point_list.get(i), range); 
-            Point point = point_list.get(i);
-
             int cell_index_x = (int)Math.floor(point.x / delta);
             int cell_index_y = (int)Math.floor(point.y / delta);
             
 //            println(i+ ": " +  point.x + " " + point.y);
 //            println(i+ ": "+ cell_index_x + " " + cell_index_y);
 
-            grid[cell_index_x][cell_index_y].add(i); 
+            grid.get(cell_index_x).get(cell_index_y).add(point); 
         }
     }
 
-    public List<Integer> findNearest(Point search_point, int k)
+    public List<Point> findNearest(Point search_point, int k)
     {
         int[] search_cell = { (int)Math.floor(search_point.x/delta), (int)Math.floor(search_point.y/delta) } ;
 //        println(search_cell[0] + " " + search_cell[1]);
@@ -92,32 +90,32 @@ public class OIGrid
 
         Rect rect = new Rect(0, search_cell);
 
-        ArrayList<Integer> point_indexes = rect.findPoints(k); 
+        List<Point> neighbors = rect.findPoints(k); 
         
-//        println(point_indexes);
-        Collections.sort(point_indexes, new MyComparator(search_point));
-//        println(point_indexes);
+//        println(neighbors);
+        Collections.sort(neighbors, new MyComparator(search_point));
+//        println(neighbors);
 
-        int farthest_point_index = point_indexes.get(point_indexes.size()-1);
+        Point farthest_neighbor = neighbors.get(neighbors.size()-1);
 
-        double farthest_point_dist = sqDist(search_point, point_list.get(farthest_point_index)); 
-        farthest_point_dist = Math.sqrt(farthest_point_dist);
+        double farthest_neighbor_dist = sqDist(search_point, farthest_neighbor); 
+        farthest_neighbor_dist = Math.sqrt(farthest_neighbor_dist);
 
-        int new_len = (int)Math.ceil(farthest_point_dist/delta);
+        int new_len = (int)Math.ceil(farthest_neighbor_dist/delta);
 //        println(delta);
 //        println(new_len);
 
         rect = new Rect(new_len, search_cell);
 
-        point_indexes = rect.findPoints(k); 
+        neighbors = rect.findPoints(k); 
         
-        Collections.sort(point_indexes, new MyComparator(search_point));
+        Collections.sort(neighbors, new MyComparator(search_point));
 
-//        println(point_indexes);
-        return point_indexes.subList(0,k);
+//        println(neighbors);
+        return neighbors.subList(0,k);
     }
 
-    private class MyComparator implements Comparator<Integer>
+    private class MyComparator implements Comparator<Point>
     {
         Point search_point;
 
@@ -127,10 +125,10 @@ public class OIGrid
         }
 
         @Override
-        public int compare(Integer a, Integer b)
+        public int compare(Point a, Point b)
         {
-            double dist_a = sqDist(point_list.get(a), search_point);
-            double dist_b = sqDist(point_list.get(b), search_point);
+            double dist_a = sqDist(a, search_point);
+            double dist_b = sqDist(b, search_point);
 
             if(dist_a > dist_b)
                 return 1;
@@ -152,17 +150,17 @@ public class OIGrid
             this.cent = cent;
         }
 
-        public ArrayList<Integer> findPoints(int k)
+        public List<Point> findPoints(int k)
         {
-            ArrayList<Integer> point_indexes = new ArrayList<Integer>();
+            List<Point> neighbors = new ArrayList<Point>();
 
-            int width = grid[0].length;
-            int height = grid.length;
+            int width = grid.get(0).size();
+            int height = grid.size();
 
 //            println("**********************************************");
-            while(point_indexes.size() < k)
+            while(neighbors.size() < k)
             {
-                point_indexes.clear();
+                neighbors.clear();
 //                println(len);
                 int start_x = cent[0] - len < 0 ? 0 : cent[0] - len;
                 int end_x = cent[0] + len >= width ? width-1 : cent[0] + len;
@@ -176,16 +174,16 @@ public class OIGrid
                     for(int j = start_y; j <= end_y; j++)
                     {
 //                        println(i + " " + j);
-//                        println(grid[i][j]);
-                        point_indexes.addAll(grid[i][j]);
+//                        println(grid.get(i).get(j));
+                        neighbors.addAll(grid.get(i).get(j));
                     }
                 }
 
                 len++;
             }
 
-//            println(point_indexes);
-            return point_indexes;
+//            println(neighbors);
+            return neighbors;
         }
     }
 }

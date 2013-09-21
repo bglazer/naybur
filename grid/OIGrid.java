@@ -10,9 +10,8 @@ import java.util.List;
 
 public class OIGrid
 {
-    //grid is an array of linked lists. The linked lists hold integer indexes of Points in point_list.
-	//made public so that 
-    public LinkedList[][] grid; 
+	//grid is a 2d grid of lists that contain Points.
+    public List<List<List<Point>>> grid; 
 
 	//range is assumed to be a 2x2 array representing the area that the points under consideration occupy.
 	//e.g. [[0,0][100,200]] is a rectangle with top left corner at 0,0 and bottom right at [100,200]
@@ -25,7 +24,6 @@ public class OIGrid
     private int num_grids;
 
     public ArrayList<Point> point_list;
-
 
     public OIGrid(ArrayList<Point> points, double[][] range)
     {

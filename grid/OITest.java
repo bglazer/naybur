@@ -65,7 +65,7 @@ public class OITest{
         {
             int num_results = 1;
             
-            int grid_result = grid.findNearest(search_point, num_results).get(0);
+            Point grid_result = grid.findNearest(search_point, num_results).get(0);
             int linear_result = linearSearch(point_list, search_point);
             
             watcher.setPoint(search_point);
@@ -123,7 +123,7 @@ public class OITest{
 
         int num_results = 1;
             
-        int grid_result = grid.findNearest(search_point, num_results).get(0);
+        Point grid_result = grid.findNearest(search_point, num_results).get(0);
         int linear_result = linearSearch(point_list, search_point);
         
         assertEquals(linear_result, grid_result);
